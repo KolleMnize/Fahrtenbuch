@@ -2,9 +2,9 @@ using ErrorOr;
 using Fahrtenbuch.Domain.sharedkernel;
 using Fahrtenbuch.Domain.valueobjects;
 
-namespace Fahrtenbuch.Domain.entities;
+namespace Fahrtenbuch.Domain.aggregates;
 
-internal class Car : Entity
+internal class Car : Aggregate
 {
     public CarId Id { get; init; }
     public string Name { get; init; }

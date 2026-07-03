@@ -1,19 +1,18 @@
-using Fahrtenbuch.Domain.entities;
-using Fahrtenbuch.Domain.valueobjects;
+using Fahrtenbuch.Domain.aggregates;
 
-namespace Fahrtenbuch.Domain.Tests.Entities;
+namespace Fahrtenbuch.Domain.Tests.aggregates;
 
 public sealed partial class CarTests
 {
     [TestMethod]
-    public void Create_ShouldReturnCarWhenCarIdAndNameAreValid()
+    public void Rehydrate_ShouldReturnCarWhenCarIdAndNameAreValid()
     {
         // arrange
         var carId = _validCarId;
         var name = _validName;
 
         // act
-        var result = Car.Create(carId, name);
+        var result = Car.Rehydrate(carId, name);
 
         // assert
         Assert.IsNotNull(result);

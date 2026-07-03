@@ -1,7 +1,7 @@
-﻿using Fahrtenbuch.Domain.entities;
+﻿using Fahrtenbuch.Domain.aggregates;
 using Fahrtenbuch.Domain.valueobjects;
 
-namespace Fahrtenbuch.Domain.Tests.Entities;
+namespace Fahrtenbuch.Domain.Tests.aggregates;
 
 [TestClass]
 public sealed partial class CarTests
