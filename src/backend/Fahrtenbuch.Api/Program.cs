@@ -6,6 +6,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+Fahrtenbuch.Application.installer.DependencyInjection.RegisterApplicationServices(builder.Services, builder.Environment);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
