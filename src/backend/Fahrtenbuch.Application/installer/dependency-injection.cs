@@ -8,9 +8,8 @@ public static class DependencyInjection
 {
     public static void RegisterApplicationServices(IServiceCollection services, IHostEnvironment environment)
     {
-        services.AddScoped<CarManagementService>();
-
         Infrastructure.installer.DependencyInjection.RegisterInfrastructureServices(services, environment);
+        services.AddScoped<CarManagementService>();
     }
 
 }
