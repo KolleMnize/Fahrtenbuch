@@ -4,7 +4,6 @@ using Fahrtenbuch.Application.mapper;
 using Fahrtenbuch.Application.querys;
 using Fahrtenbuch.Domain.aggregates;
 using Fahrtenbuch.Domain.valueobjects;
-using Fahrtenbuch.Infrastructure.records;
 using Fahrtenbuch.Infrastructure.services;
 
 namespace Fahrtenbuch.Application.services;
