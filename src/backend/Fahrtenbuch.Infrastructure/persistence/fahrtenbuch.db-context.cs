@@ -12,11 +12,15 @@ public class FahrtenbuchDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        modelBuilder.Entity<CarRecord>().HasKey(c => c.Id);
+        modelBuilder.Entity<CarRecord>()
+        .HasKey(c => c.Id);
+        modelBuilder.Entity<MileageRecord>()
+        .HasKey(m => m.Id);
 
         base.OnModelCreating(modelBuilder);
     }
 
     internal DbSet<CarRecord> CarRecords { get; set; } = null!;
+    internal DbSet<MileageRecord> MileageRecords { get; set; } = null!;
 
 }
