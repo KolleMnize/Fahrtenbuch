@@ -10,6 +10,7 @@ public static class DependencyInjection
     {
         Infrastructure.installer.DependencyInjection.RegisterInfrastructureServices(services, environment);
         services.AddScoped<CarManagementService>();
+        services.AddScoped<MileageManagementService>();
     }
 
 }
