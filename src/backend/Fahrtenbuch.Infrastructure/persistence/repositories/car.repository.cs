@@ -1,4 +1,5 @@
 using Fahrtenbuch.Domain.aggregates;
+using Fahrtenbuch.Domain.valueobjects;
 using Fahrtenbuch.Infrastructure.mapper;
 using Fahrtenbuch.Infrastructure.records;
 using Microsoft.EntityFrameworkCore;
@@ -24,5 +25,12 @@ public class CarRepository(IServiceProvider serviceProvider)
         var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         return dbContext.Set<CarRecord>().Select(CarRecordMapper.CarRecordToCar).ToList();
+    }
+
+    public bool Exists(CarId carId)
+    {
+        var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        return dbContext.Set<CarRecord>().Any(c => c.Id == carId.Value);
     }
 }

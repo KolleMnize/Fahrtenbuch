@@ -12,7 +12,11 @@ public class MileageManagementController(MileageManagementService mileageManagem
     [HttpPost(Name = "CreateMileage")]
     public async Task<IActionResult> CreateMileage(CreateMileageCommand command)
     {
-        await mileageManagementService.Handle(command);
+        var result = await mileageManagementService.Handle(command);
+        if (result.IsError)
+        {
+            return BadRequest(result.Errors);
+        }
         return Ok();
     }
 

@@ -16,6 +16,9 @@ public class FahrtenbuchDbContext : DbContext
         .HasKey(c => c.Id);
         modelBuilder.Entity<MileageRecord>()
         .HasKey(m => m.Id);
+        modelBuilder.Entity<MileageRecord>()
+        .HasIndex(m => m.CarId);
+
 
         base.OnModelCreating(modelBuilder);
     }

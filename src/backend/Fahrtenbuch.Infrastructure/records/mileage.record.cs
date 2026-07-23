@@ -1,6 +1,6 @@
 namespace Fahrtenbuch.Infrastructure.records;
 
-public record MileageRecord(
+internal record MileageRecord(
     Guid Id,
     Guid CarId,
     decimal Value,
