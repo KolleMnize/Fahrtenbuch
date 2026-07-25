@@ -1,3 +1,5 @@
+using Fahrtenbuch.Application.services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +11,13 @@ builder.Services.AddOpenApi();
 Fahrtenbuch.Application.installer.DependencyInjection.RegisterApplicationServices(builder.Services, builder.Environment);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbInitializationService = scope.ServiceProvider.GetRequiredService<DbInitializationService>();
+    dbInitializationService.InitializeDatabase();
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

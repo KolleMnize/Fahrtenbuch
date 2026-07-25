@@ -9,6 +9,7 @@ public static class DependencyInjection
     public static void RegisterApplicationServices(IServiceCollection services, IHostEnvironment environment)
     {
         Infrastructure.installer.DependencyInjection.RegisterInfrastructureServices(services, environment);
+        services.AddScoped<DbInitializationService>();
         services.AddScoped<CarManagementService>();
         services.AddScoped<MileageManagementService>();
     }
