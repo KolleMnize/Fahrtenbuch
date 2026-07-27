@@ -1,9 +1,8 @@
 using Fahrtenbuch.Infrastructure.persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Fahrtenbuch.Infrastructure.services;
-using Fahrtenbuch.Infrastructure.records;
+using Fahrtenbuch.Infrastructure.persistence.repositories;
+using Fahrtenbuch.Domain.interfaces.repositories;
 
 namespace Fahrtenbuch.Infrastructure.installer;
 
@@ -12,7 +11,8 @@ public static class DependencyInjection
     public static void RegisterInfrastructureServices(IServiceCollection services, IHostEnvironment environment)
     {
         services.AddDbContext<FahrtenbuchDbContext>();
-        services.AddSingleton<RepositoryService>();
+        services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IMileageRepository, MileageRepository>();
     }
 
 }

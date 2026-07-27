@@ -1,13 +1,13 @@
 using Fahrtenbuch.Domain.aggregates;
+using Fahrtenbuch.Domain.interfaces.repositories;
 using Fahrtenbuch.Domain.valueobjects;
 using Fahrtenbuch.Infrastructure.mapper;
 using Fahrtenbuch.Infrastructure.records;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fahrtenbuch.Infrastructure.persistence.repositories;
 
-public class CarRepository(IServiceProvider serviceProvider)
+public class CarRepository(IServiceProvider serviceProvider) : ICarRepository
 {
     public void Create(Car carEntity)
     {

@@ -17,7 +17,7 @@ public class Mileage : Aggregate
         Value = value;
         Date = date;
     }
-    public static Mileage Create(MileageId id, CarId carId, decimal value, DateTime date)
+    internal static Mileage Create(MileageId id, CarId carId, decimal value, DateTime date)
     {
         return new Mileage(id, carId, value, date);
     }
