@@ -1,6 +1,6 @@
-using Fahrtenbuch.Application.commands;
-using Fahrtenbuch.Application.querys;
-using Fahrtenbuch.Application.services;
+using Fahrtenbuch.Application.Commands;
+using Fahrtenbuch.Application.Querys;
+using Fahrtenbuch.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fahrtenbuch.Api.Controllers;
