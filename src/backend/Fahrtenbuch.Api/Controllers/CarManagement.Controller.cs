@@ -3,7 +3,7 @@ using Fahrtenbuch.Application.querys;
 using Fahrtenbuch.Application.services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fahrtenbuch.Api.controllers;
+namespace Fahrtenbuch.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
