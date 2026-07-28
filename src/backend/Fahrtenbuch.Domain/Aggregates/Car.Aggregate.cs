@@ -5,9 +5,13 @@ namespace Fahrtenbuch.Domain.Aggregates;
 
 public class Car : Aggregate
 {
-    public CarId Id { get; init; }
-    public string Name { get; init; }
+    public required CarId Id { get; init; }
+    public required string Name { get; init; }
 
+    private Car()
+    {
+        // Required for EF Core
+    }
     private Car(CarId id, string name)
     {
         Id = id;
@@ -16,12 +20,11 @@ public class Car : Aggregate
 
     public static Car Create(CarId id, string name)
     {
-        return new Car(id, name);
-    }
-
-    public static Car Rehydrate(CarId id, string name)
-    {
-        return new Car(id, name);
+        return new Car
+        {
+            Id = id,
+            Name = name
+        };
     }
 
 }

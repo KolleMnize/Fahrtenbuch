@@ -10,6 +10,7 @@ public class DbInitializationService(IServiceProvider serviceProvider)
         using (var scope = serviceProvider.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+            dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
         }
     }

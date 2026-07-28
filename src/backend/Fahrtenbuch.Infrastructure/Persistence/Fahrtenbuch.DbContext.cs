@@ -1,4 +1,5 @@
-using Fahrtenbuch.Infrastructure.Records;
+using Fahrtenbuch.Domain.Aggregates;
+using Fahrtenbuch.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fahrtenbuch.Infrastructure.Persistence;
@@ -19,43 +20,68 @@ public class FahrtenbuchDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CarRecord>()
+        modelBuilder.Entity<Car>()
         .HasKey(c => c.Id);
-        modelBuilder.Entity<MileageRecord>()
+        modelBuilder.Entity<Car>()
+        .Property(c => c.Id)
+                .HasConversion(
+                    id => id.Value,
+                    value => CarId.Create(value).Value);
+
+        modelBuilder.Entity<Mileage>()
         .HasKey(m => m.Id);
-        modelBuilder.Entity<MileageRecord>()
+        modelBuilder.Entity<Mileage>()
+        .Property(m => m.Id)
+                .HasConversion(
+                    id => id.Value,
+                    value => MileageId.Create(value).Value);
+        modelBuilder.Entity<Mileage>()
         .HasIndex(m => m.CarId);
+        modelBuilder.Entity<Mileage>()
+        .Property(m => m.CarId)
+                .HasConversion(
+                    id => id.Value,
+                    value => CarId.Create(value).Value);
 
         base.OnModelCreating(modelBuilder);
 
         UseSeeding(modelBuilder);
     }
 
-    internal DbSet<CarRecord> CarRecords { get; set; } = null!;
-    internal DbSet<MileageRecord> MileageRecords { get; set; } = null!;
+    internal DbSet<Car> CarRecords { get; set; } = null!;
+    internal DbSet<Mileage> MileageRecords { get; set; } = null!;
 
-    private static void UseSeeding(ModelBuilder modelBuilder)
+    private void UseSeeding(ModelBuilder modelBuilder)
     {
-        Guid Car1Id = Guid.Parse("12473fc2-9ee5-4670-834c-7c8401ec2df1");
-        Guid Car2Id = Guid.Parse("22473fc2-9ee5-4670-834c-7c8401ec2df1");
 
-        modelBuilder.Entity<CarRecord>().HasData(
-            new CarRecord(Car1Id, "Car 1"),
-            new CarRecord(Car2Id, "Car 2")
+        CarId Car1Id = CarId.Create(Guid.Parse("12473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
+        CarId Car2Id = CarId.Create(Guid.Parse("22473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
+
+        MileageId Mileage1Id = MileageId.Create(Guid.Parse("32473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
+        MileageId Mileage2Id = MileageId.Create(Guid.Parse("42473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
+
+        modelBuilder.Entity<Car>().HasData(
+            Car.Create(Car1Id, "Car 1"),
+            Car.Create(Car2Id, "Car 2")
         );
 
-        modelBuilder.Entity<MileageRecord>().HasData(
-            new MileageRecord(
-                Guid.Parse("32473fc2-9ee5-4670-834c-7c8401ec2df1"),
-                Car1Id,
-                100,
-                DateTime.Parse("2024-01-01T00:00:00Z")),
-            new MileageRecord(
-                Guid.Parse("42473fc2-9ee5-4670-834c-7c8401ec2df1"),
-                Car1Id,
-                200,
-                DateTime.Parse("2024-01-03T00:00:00Z"))
+        Mileage mileage1 = Mileage.Create(
+                    Mileage1Id,
+                    Car1Id,
+                    100,
+                    DateTime.Parse("2024-01-01T00:00:00Z"));
+        Mileage mileage2 = Mileage.Create(
+                    Mileage2Id,
+                    Car2Id,
+                    200,
+                    DateTime.Parse("2024-01-03T00:00:00Z"));
+
+
+        modelBuilder.Entity<Mileage>().HasData(
+           mileage1,
+           mileage2
         );
+
     }
 
 }
