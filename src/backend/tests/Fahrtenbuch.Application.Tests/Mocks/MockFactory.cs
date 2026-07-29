@@ -16,7 +16,7 @@ public static class MockFactory
             id = IdCar1;
         }
         CarId carId = CarId.Create(id).Value;
-        return Car.Rehydrate(carId, name);
+        return Car.Create(carId, name);
     }
 
     public static Mileage CreateMockedMileage(
@@ -34,6 +34,6 @@ public static class MockFactory
             carId = IdCar1;
         }
         MileageId mileageId = MileageId.Create(id).Value;
-        return Mileage.Rehydrate(mileageId, CarId.Create(carId).Value, value, date);
+        return Mileage.Create(mileageId, CarId.Create(carId).Value, value, date);
     }
 }

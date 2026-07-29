@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../src/backend/Fahrtenbuch.Application/Fahrtenbuch.Application.csproj" />
+    <ProjectReference Include="../../Fahrtenbuch.Application/Fahrtenbuch.Application.csproj" />
   </ItemGroup>
-
 </Project>

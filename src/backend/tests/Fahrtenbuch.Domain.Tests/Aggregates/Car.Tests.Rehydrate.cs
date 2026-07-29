@@ -12,7 +12,7 @@ public sealed partial class CarTests
         var name = _validName;
 
         // act
-        var result = Car.Rehydrate(carId, name);
+        var result = Car.Create(carId, name);
 
         // assert
         Assert.IsNotNull(result);
