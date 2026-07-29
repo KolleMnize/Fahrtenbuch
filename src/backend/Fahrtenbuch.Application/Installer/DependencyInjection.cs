@@ -13,6 +13,7 @@ public static class DependencyInjection
         Domain.Installer.DependencyInjection.RegisterDomainServices(services);
         services.AddScoped<CarManagementService>();
         services.AddScoped<MileageManagementService>();
+        services.AddScoped<HappeningManagementService>();
     }
 
 }

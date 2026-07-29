@@ -13,6 +13,7 @@ public static class DependencyInjection
         services.AddDbContext<FahrtenbuchDbContext>();
         services.AddScoped<ICarRepository, CarRepository>();
         services.AddScoped<IMileageRepository, MileageRepository>();
+        services.AddScoped<HappeningRepository, HappeningRepository>();
     }
 
 }

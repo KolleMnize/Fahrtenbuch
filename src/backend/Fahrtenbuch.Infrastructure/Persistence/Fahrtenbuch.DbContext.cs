@@ -43,13 +43,17 @@ public class FahrtenbuchDbContext : DbContext
                     id => id.Value,
                     value => CarId.Create(value).Value);
 
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(FahrtenbuchDbContext).Assembly);
+
         base.OnModelCreating(modelBuilder);
 
         UseSeeding(modelBuilder);
     }
 
-    internal DbSet<Car> CarRecords { get; set; } = null!;
-    internal DbSet<Mileage> MileageRecords { get; set; } = null!;
+    internal DbSet<Car> Cars { get; set; } = null!;
+    internal DbSet<Mileage> Mileages { get; set; } = null!;
+
+    internal DbSet<Happening> Happenings { get; set; } = null!;
 
     private void UseSeeding(ModelBuilder modelBuilder)
     {
