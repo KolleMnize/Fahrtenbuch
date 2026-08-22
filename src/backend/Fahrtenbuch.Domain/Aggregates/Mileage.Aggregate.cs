@@ -14,7 +14,7 @@ public class Mileage : Aggregate
     {
         // Required for EF Core
     }
-    public static Mileage Create(MileageId id, CarId carId, decimal value, DateTime date)
+    internal static Mileage Create(MileageId id, CarId carId, decimal value, DateTime date)
     {
         return new Mileage
         {
