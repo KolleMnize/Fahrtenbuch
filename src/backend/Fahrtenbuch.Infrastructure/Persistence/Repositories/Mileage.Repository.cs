@@ -49,4 +49,12 @@ public class MileageRepository(IServiceProvider serviceProvider) : IMileageRepos
 
         return mileage != null ? mileage : null;
     }
+
+    public bool Exists(MileageId mileageId)
+    {
+        var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+
+        return dbContext.Set<Mileage>().Any(m => m.Id.Value == mileageId.Value);
+    }
 }

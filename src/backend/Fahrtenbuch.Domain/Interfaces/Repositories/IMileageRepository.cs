@@ -8,4 +8,5 @@ public interface IMileageRepository
     IEnumerable<Mileage> GetAll();
     Mileage? GetFollowingMileageFromDate(CarId carId, DateTime date);
     Mileage? GetPreviousMileageFromDate(CarId carId, DateTime date);
+    bool Exists(MileageId mileageId);
 }
