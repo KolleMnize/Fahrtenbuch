@@ -19,21 +19,21 @@ public static class MockFactory
         return Car.Create(carId, name);
     }
 
-    public static Mileage CreateMockedMileage(
-        Guid id = default,
-        Guid carId = default,
-        decimal value = 500,
-        DateTime date = default)
-    {
-        if (id == default)
-        {
-            id = IdMileage1;
-        }
-        if (carId == default)
-        {
-            carId = IdCar1;
-        }
-        MileageId mileageId = MileageId.Create(id).Value;
-        return Mileage.Create(mileageId, CarId.Create(carId).Value, value, date);
-    }
+    // public static Mileage CreateMockedMileage(
+    //     Guid id = default,
+    //     Guid carId = default,
+    //     decimal value = 500,
+    //     DateTime date = default)
+    // {
+    //     if (id == default)
+    //     {
+    //         id = IdMileage1;
+    //     }
+    //     if (carId == default)
+    //     {
+    //         carId = IdCar1;
+    //     }
+    //     MileageId mileageId = MileageId.Create(id).Value;
+    //     return Mileage.Create(mileageId, CarId.Create(carId).Value, value, date);
+    // }
 }

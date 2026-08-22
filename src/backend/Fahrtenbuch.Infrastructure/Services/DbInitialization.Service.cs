@@ -12,6 +12,9 @@ public class DbInitializationService(IServiceProvider serviceProvider)
             var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
+
+            var dbSeederService = scope.ServiceProvider.GetRequiredService<DbSeederService>();
+            dbSeederService.Seed();
         }
     }
 }

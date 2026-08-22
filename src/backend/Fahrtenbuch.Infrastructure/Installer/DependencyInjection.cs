@@ -13,6 +13,7 @@ public static class DependencyInjection
     {
         services.AddScoped<DbInitializationService>();
         services.AddDbContext<FahrtenbuchDbContext>();
+        services.AddScoped<DbSeederService>();
         services.AddScoped<ICarRepository, CarRepository>();
         services.AddScoped<IMileageRepository, MileageRepository>();
         services.AddScoped<IHappeningRepository, HappeningRepository>();
