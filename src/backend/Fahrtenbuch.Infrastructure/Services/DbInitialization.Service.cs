@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Fahrtenbuch.Infrastructure.Persistence;
 
-namespace Fahrtenbuch.Application.Services;
+namespace Fahrtenbuch.Infrastructure.Services;
 
 public class DbInitializationService(IServiceProvider serviceProvider)
 {

@@ -7,7 +7,7 @@ namespace Fahrtenbuch.Infrastructure.Persistence.Configurations;
 
 public class HappeningConfiguration : IEntityTypeConfiguration<Happening>
 {
-    public void Configure(EntityTypeBuilder<Happening> builder)
+    public virtual void Configure(EntityTypeBuilder<Happening> builder)
     {
         builder
             .HasKey(e => e.Id);

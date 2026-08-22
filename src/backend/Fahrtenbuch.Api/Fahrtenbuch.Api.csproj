@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Fahrtenbuch.Application/Fahrtenbuch.Application.csproj" />
+    <ProjectReference Include="../Fahrtenbuch.Infrastructure/Fahrtenbuch.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

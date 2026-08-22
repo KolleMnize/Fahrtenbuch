@@ -14,45 +14,18 @@ public class FahrtenbuchDbContext : DbContext
     {
         optionsBuilder
         .UseInMemoryDatabase("Fahrtenbuch");
-
         base.OnConfiguring(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Car>()
-        .HasKey(c => c.Id);
-        modelBuilder.Entity<Car>()
-        .Property(c => c.Id)
-                .HasConversion(
-                    id => id.Value,
-                    value => CarId.Create(value).Value);
-
-        modelBuilder.Entity<Mileage>()
-        .HasKey(m => m.Id);
-        modelBuilder.Entity<Mileage>()
-        .Property(m => m.Id)
-                .HasConversion(
-                    id => id.Value,
-                    value => MileageId.Create(value).Value);
-        modelBuilder.Entity<Mileage>()
-        .HasIndex(m => m.CarId);
-        modelBuilder.Entity<Mileage>()
-        .Property(m => m.CarId)
-                .HasConversion(
-                    id => id.Value,
-                    value => CarId.Create(value).Value);
-
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(FahrtenbuchDbContext).Assembly);
-
         base.OnModelCreating(modelBuilder);
-
         UseSeeding(modelBuilder);
     }
 
     internal DbSet<Car> Cars { get; set; } = null!;
     internal DbSet<Mileage> Mileages { get; set; } = null!;
-
     internal DbSet<Happening> Happenings { get; set; } = null!;
 
     private void UseSeeding(ModelBuilder modelBuilder)
