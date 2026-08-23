@@ -19,6 +19,10 @@ public class RideDomainService(IMileageRepository mileageRepository)
         {
             throw new InvalidOperationException($"End mileage with ID {endMileage} does not exist.");
         }
+        if (startMileageEntity.CarId != endMileageEntity.CarId)
+        {
+            throw new InvalidOperationException("Start and end mileage must belong to the same car.");
+        }
         if (endMileageEntity.Value < startMileageEntity.Value)
         {
             throw new InvalidOperationException("End mileage cannot be less than start mileage.");
