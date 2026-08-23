@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class CarRepository(IServiceProvider serviceProvider) : ICarRepository
+public class CarRepository(FahrtenbuchDbContext dbContext) : ICarRepository
 {
     public void Create(Car carEntity)
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         dbContext.Set<Car>().Add(carEntity);
         dbContext.SaveChanges();
@@ -18,16 +18,16 @@ public class CarRepository(IServiceProvider serviceProvider) : ICarRepository
 
     public IEnumerable<Car> GetAll()
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         return dbContext.Set<Car>().ToList();
     }
 
     public bool Exists(CarId carId)
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
         return dbContext.Set<Car>().Any(c => c.Id.Value == carId.Value);
     }
 }

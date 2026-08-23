@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class MileageRepository(IServiceProvider serviceProvider) : IMileageRepository
+public class MileageRepository(FahrtenbuchDbContext dbContext) : IMileageRepository
 {
     public void Create(Mileage mileage)
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         dbContext.Set<Mileage>().Add(mileage);
         dbContext.SaveChanges();
@@ -18,16 +18,16 @@ public class MileageRepository(IServiceProvider serviceProvider) : IMileageRepos
 
     public IEnumerable<Mileage> GetAll()
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         return dbContext.Set<Mileage>().ToList();
     }
 
     public Mileage? GetFollowingMileageFromDate(CarId carId, DateTime date)
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         var mileage = dbContext.Set<Mileage>()
             .Where(m => m.CarId.Value == carId.Value && m.Date > date)
@@ -39,8 +39,8 @@ public class MileageRepository(IServiceProvider serviceProvider) : IMileageRepos
 
     public Mileage? GetPreviousMileageFromDate(CarId carId, DateTime date)
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         var mileage = dbContext.Set<Mileage>()
             .Where(m => m.CarId.Value == carId.Value && m.Date < date)
@@ -52,16 +52,16 @@ public class MileageRepository(IServiceProvider serviceProvider) : IMileageRepos
 
     public bool Exists(MileageId mileageId)
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         return dbContext.Set<Mileage>().Any(m => m.Id.Value == mileageId.Value);
     }
 
     public Mileage? GetById(MileageId mileageId)
     {
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+        // var scope = serviceProvider.CreateScope();
+        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         return dbContext.Set<Mileage>().FirstOrDefault(m => m.Id.Value == mileageId.Value);
     }
