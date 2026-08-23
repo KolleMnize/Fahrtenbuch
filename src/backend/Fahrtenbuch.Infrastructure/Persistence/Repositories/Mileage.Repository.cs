@@ -57,4 +57,12 @@ public class MileageRepository(IServiceProvider serviceProvider) : IMileageRepos
 
         return dbContext.Set<Mileage>().Any(m => m.Id.Value == mileageId.Value);
     }
+
+    public Mileage? GetById(MileageId mileageId)
+    {
+        var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
+
+        return dbContext.Set<Mileage>().FirstOrDefault(m => m.Id.Value == mileageId.Value);
+    }
 }

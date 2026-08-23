@@ -25,5 +25,6 @@ public class FahrtenbuchDbContext : DbContext
     internal DbSet<Car> Cars { get; set; } = null!;
     internal DbSet<Mileage> Mileages { get; set; } = null!;
     internal DbSet<Happening> Happenings { get; set; } = null!;
+    internal DbSet<Ride> Rides { get; set; } = null!;
 
 }
