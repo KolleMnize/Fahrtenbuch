@@ -21,7 +21,7 @@ public class Happening : Aggregate
         MileageId = mileageId;
     }
 
-    public static Happening Create(HappeningId id, string description, MileageId? mileageId)
+    public static Happening Create(HappeningId id, string description, MileageId? mileageId = null)
     {
         return new Happening(id, description, mileageId) { Id = id };
     }
