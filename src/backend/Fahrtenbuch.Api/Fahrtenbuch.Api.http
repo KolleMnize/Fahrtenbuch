@@ -20,7 +20,7 @@ GET {{Fahrtenbuch.Api_HostAddress}}/RideManagement
 Accept: application/json
 
 ### Update Ride (End Mileage setzen)
-PUT {{Fahrtenbuch.Api_HostAddress}}/RideManagement
+PUT {{Fahrtenbuch.Api_HostAddress}}/RideManagement/EndRide
 Accept: */*
 Content-Type: application/json
 

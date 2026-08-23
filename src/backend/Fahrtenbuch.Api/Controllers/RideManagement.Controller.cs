@@ -9,7 +9,7 @@ namespace Fahrtenbuch.Api.Controllers;
 [Route("[controller]")]
 public class RideManagementController(RideManagementService rideManagementService) : ControllerBase
 {
-    [HttpPost(Name = "CreateRide")]
+    [HttpPost("CreateRide", Name = "CreateRide")]
     public async Task<IActionResult> CreateRide(CreateRideCommand command)
     {
         var result = await rideManagementService.Handle(command);
@@ -20,7 +20,7 @@ public class RideManagementController(RideManagementService rideManagementServic
         return Ok();
     }
 
-    [HttpPut(Name = "EndRide")]
+    [HttpPut("EndRide", Name = "EndRide")]
     public async Task<IActionResult> EndRide(EndRideCommand command)
     {
         var result = await rideManagementService.Handle(command);
@@ -31,7 +31,7 @@ public class RideManagementController(RideManagementService rideManagementServic
         return Ok();
     }
 
-    [HttpGet(Name = "GetRides")]
+    [HttpGet("GetRides", Name = "GetRides")]
     public async Task<GetRidesQueryResult> GetRides([FromQuery] GetRidesQuery query)
     {
         return await rideManagementService.Handle(query);

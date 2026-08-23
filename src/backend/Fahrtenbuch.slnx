@@ -1,8 +1,9 @@
 <Solution>
-  <Project Path="Fahrtenbuch.Api/Fahrtenbuch.Api.csproj"/>
-  <Project Path="Fahrtenbuch.Application/Fahrtenbuch.Application.csproj"/>
-  <Project Path="Fahrtenbuch.Infrastructure/Fahrtenbuch.Infrastructure.csproj"/>
-  <Project Path="Fahrtenbuch.Domain/Fahrtenbuch.Domain.csproj"/>
-  <Project Path="tests/Fahrtenbuch.Application.Tests/Fahrtenbuch.Application.Tests.csproj"/>
-  <Project Path="tests/Fahrtenbuch.Domain.Tests/Fahrtenbuch.Domain.Tests.csproj"/>  
+    <Project Path="Fahrtenbuch.Api/Fahrtenbuch.Api.csproj" />
+  <Project Path="Fahrtenbuch.Application/Fahrtenbuch.Application.csproj" />
+  <Project Path="Fahrtenbuch.Infrastructure/Fahrtenbuch.Infrastructure.csproj" />
+  <Project Path="Fahrtenbuch.Domain/Fahrtenbuch.Domain.csproj" />
+  <Project Path="tests/Fahrtenbuch.Application.Tests/Fahrtenbuch.Application.Tests.csproj" />
+  <Project Path="tests/Fahrtenbuch.Domain.Tests/Fahrtenbuch.Domain.Tests.csproj" />  
+   <Project Path="tests/Fahrtenbuch.Integration.Tests/Fahrtenbuch.Integration.Tests.csproj" />
 </Solution>
