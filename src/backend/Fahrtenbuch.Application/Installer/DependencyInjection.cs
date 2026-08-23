@@ -13,6 +13,7 @@ public static class DependencyInjection
         services.AddScoped<CarManagementService>();
         services.AddScoped<MileageManagementService>();
         services.AddScoped<HappeningManagementService>();
+        services.AddScoped<RideManagementService>();
     }
 
 }
