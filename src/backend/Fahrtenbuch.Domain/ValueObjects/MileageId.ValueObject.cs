@@ -2,7 +2,7 @@ using ErrorOr;
 
 namespace Fahrtenbuch.Domain.ValueObjects;
 
-public class MileageId
+public class MileageId : IEquatable<MileageId>
 {
     public Guid Value { get; init; }
 
@@ -20,4 +20,13 @@ public class MileageId
 
         return new MileageId(value);
     }
+
+    public bool Equals(MileageId? other)
+    {
+        if (other is null) return false;
+        return Value == other.Value;
+    }
+
+    public override bool Equals(object? obj) => Equals(obj as MileageId);
+    public override int GetHashCode() => Value.GetHashCode();
 }
