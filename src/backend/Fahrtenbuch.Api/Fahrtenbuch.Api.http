@@ -1,6 +1,30 @@
 @Fahrtenbuch.Api_HostAddress = http://localhost:5066
 
-GET {{Fahrtenbuch.Api_HostAddress}}/weatherforecast/
+### Get all Mileages
+GET {{Fahrtenbuch.Api_HostAddress}}/MileageManagement
 Accept: application/json
 
-###
+
+### Create Ride
+POST {{Fahrtenbuch.Api_HostAddress}}/RideManagement
+Accept: */*
+Content-Type: application/json
+
+{
+  "description": "tada",
+  "startMileageId": "32473fc2-9ee5-4670-834c-7c8401ec2df1"
+}
+
+### Get all Rides
+GET {{Fahrtenbuch.Api_HostAddress}}/RideManagement
+Accept: application/json
+
+### Update Ride (End Mileage setzen)
+PUT {{Fahrtenbuch.Api_HostAddress}}/RideManagement
+Accept: */*
+Content-Type: application/json
+
+{
+  "rideId": "82473fc2-9ee5-4670-834c-7c8401ec2df1",
+  "endMileageId": "42473fc2-9ee5-4670-834c-7c8401ec2df1"
+}
