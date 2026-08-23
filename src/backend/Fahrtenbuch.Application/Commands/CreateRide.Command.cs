@@ -1,3 +1,3 @@
 namespace Fahrtenbuch.Application.Commands;
 
-public record CreateRideCommand(Guid RideId, string Description, Guid StartMileageId);
+public record CreateRideCommand(string Description, Guid StartMileageId);
