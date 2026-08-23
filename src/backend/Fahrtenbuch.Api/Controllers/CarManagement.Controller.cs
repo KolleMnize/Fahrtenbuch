@@ -9,14 +9,14 @@ namespace Fahrtenbuch.Api.Controllers;
 [Route("[controller]")]
 public class CarManagementController(CarManagementService carManagementService) : ControllerBase
 {
-    [HttpPost(Name = "CreateCar")]
+    [HttpPost("CreateCar", Name = "CreateCar")]
     public async Task<IActionResult> CreateCar(CreateCarCommand command)
     {
         await carManagementService.Handle(command);
         return Ok();
     }
 
-    [HttpGet(Name = "GetCars")]
+    [HttpGet("GetCars", Name = "GetCars")]
     public async Task<GetCarsQueryResult> GetCars([FromQuery] GetCarsQuery query)
     {
         return await carManagementService.Handle(query);

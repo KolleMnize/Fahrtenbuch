@@ -9,7 +9,7 @@ namespace Fahrtenbuch.Api.Controllers;
 [Route("[controller]")]
 public class MileageManagementController(MileageManagementService mileageManagementService) : ControllerBase
 {
-    [HttpPost(Name = "CreateMileage")]
+    [HttpPost("CreateMileage", Name = "CreateMileage")]
     public async Task<IActionResult> CreateMileage(CreateMileageCommand command)
     {
         var result = await mileageManagementService.Handle(command);
@@ -20,7 +20,7 @@ public class MileageManagementController(MileageManagementService mileageManagem
         return Ok();
     }
 
-    [HttpGet(Name = "GetMileage")]
+    [HttpGet("GetMileage", Name = "GetMileage")]
     public async Task<GetMileagesQueryResult> GetMileage([FromQuery] GetMileagesQuery query)
     {
         return await mileageManagementService.Handle(query);

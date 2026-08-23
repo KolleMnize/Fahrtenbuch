@@ -9,7 +9,7 @@ namespace Fahrtenbuch.Api.Controllers;
 [Route("[controller]")]
 public class HappeningManagementController(HappeningManagementService happeningManagementService) : ControllerBase
 {
-    [HttpPost(Name = "CreateHappening")]
+    [HttpPost("CreateHappening", Name = "CreateHappening")]
     public async Task<IActionResult> CreateHappening(CreateHappeningCommand command)
     {
         var result = await happeningManagementService.Handle(command);
@@ -20,7 +20,7 @@ public class HappeningManagementController(HappeningManagementService happeningM
         return Ok();
     }
 
-    [HttpGet(Name = "GetHappenings")]
+    [HttpGet("GetHappenings", Name = "GetHappenings")]
     public async Task<GetHappeningsQueryResult> GetHappenings([FromQuery] GetHappeningsQuery query)
     {
         return await happeningManagementService.Handle(query);
