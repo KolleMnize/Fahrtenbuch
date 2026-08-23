@@ -9,5 +9,6 @@ public static class DependencyInjection
     {
         // Register domain services here
         services.AddScoped<MileageDomainService>();
+        services.AddScoped<RideDomainService>();
     }
 }
