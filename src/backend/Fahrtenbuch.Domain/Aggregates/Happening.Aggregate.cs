@@ -1,3 +1,4 @@
+using ErrorOr;
 using Fahrtenbuch.Domain.SharedKernel;
 using Fahrtenbuch.Domain.ValueObjects;
 
@@ -21,13 +22,14 @@ public class Happening : Aggregate
         MileageId = mileageId;
     }
 
-    public static Happening Create(HappeningId id, string description, MileageId? mileageId = null)
+    public static ErrorOr<Happening> Create(HappeningId id, string description, MileageId? mileageId = null)
     {
         return new Happening(id, description, mileageId) { Id = id };
     }
 
-    public void UpdateDescription(string description)
+    public ErrorOr<Happening> UpdateDescription(string description)
     {
         Description = description;
+        return this;
     }
 }

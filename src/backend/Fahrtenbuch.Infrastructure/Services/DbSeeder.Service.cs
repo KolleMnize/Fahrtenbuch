@@ -59,11 +59,11 @@ internal class DbSeederService(
         Happening happening1 = Happening.Create(
             Happening1Id,
             "Beschreibung 1",
-            mileage1.Id);
+            mileage1.Id).Value;
 
         Happening happening2 = Happening.Create(
             Happening2Id,
-            "Beschreibung 2");
+            "Beschreibung 2").Value;
 
         if (!dbContext.Happenings.Any())
         {

@@ -14,19 +14,25 @@ namespace Fahrtenbuch.Application.Services
         IHappeningRepository happeningRepository,
         IMileageRepository mileageRepository)
     {
-        public async Task<ErrorOr<Success>> Handle(CreateHappeningCommand command)
+        public async Task<ErrorOr<Happening>> Handle(CreateHappeningCommand command)
         {
             var mileageExists = mileageRepository.Exists(MileageId.Create(command.MileageId).Value);
             if (!mileageExists)
                 return Error.Validation(code: "MileageNotFound", description: $"Mileage with id {command.MileageId} does not exist.");
 
-            var happening = Happening.Create(
+            var happeningCreateResult = Happening.Create(
                 HappeningId.Create(Guid.NewGuid()).Value,
                 command.Description,
                 MileageId.Create(command.MileageId).Value);
 
-            happeningRepository.Create(happening);
-            return Result.Success;
+            if (happeningCreateResult.IsError)
+            {
+                return happeningCreateResult.Errors;
+            }
+
+            happeningRepository.Create(happeningCreateResult.Value);
+
+            return happeningCreateResult.Value;
         }
 
         public async Task<GetHappeningsQueryResult> Handle(GetHappeningsQuery query)
