@@ -29,8 +29,8 @@ internal class DbSeederService(
         if (!dbContext.Cars.Any())
         {
             dbContext.Cars.AddRange(
-                Car.Create(Car1Id, "Car 1"),
-                Car.Create(Car2Id, "Car 2")
+                Car.Create(Car1Id, "Car 1").Value,
+                Car.Create(Car2Id, "Car 2").Value
             );
             dbContext.SaveChanges();
         }

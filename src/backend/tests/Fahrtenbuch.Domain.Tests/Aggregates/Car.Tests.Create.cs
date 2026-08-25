@@ -13,7 +13,7 @@ public sealed partial class CarTests
         var name = _validName;
 
         // act
-        var result = Car.Create(carId, name);
+        var result = Car.Create(carId, name).Value;
 
         // assert
         Assert.IsNotNull(result);

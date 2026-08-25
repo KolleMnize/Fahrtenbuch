@@ -12,7 +12,13 @@ public class CarManagementService(ICarRepository carRepository)
 {
     public async Task Handle(CreateCarCommand command)
     {
-        var car = Car.Create(CarId.Create(Guid.NewGuid()).Value, command.Name);
+        var carCreateResult = Car.Create(CarId.Create(Guid.NewGuid()).Value, command.Name);
+        if (carCreateResult.IsError)
+        {
+            throw new InvalidOperationException(carCreateResult.Errors[0].Description);
+        }
+
+        Car car = carCreateResult.Value;
         carRepository.Create(car);
     }
 

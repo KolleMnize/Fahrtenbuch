@@ -16,7 +16,7 @@ public static class MockFactory
             id = IdCar1;
         }
         CarId carId = CarId.Create(id).Value;
-        return Car.Create(carId, name);
+        return Car.Create(carId, name).Value;
     }
 
     // public static Mileage CreateMockedMileage(

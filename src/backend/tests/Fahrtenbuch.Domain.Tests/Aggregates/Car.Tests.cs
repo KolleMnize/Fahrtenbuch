@@ -25,7 +25,7 @@ public sealed partial class CarTests
 
     private Car CreateMockedInstance()
     {
-        return Car.Create(_validCarId, _validName);
+        return Car.Create(_validCarId, _validName).Value;
     }
 
 }

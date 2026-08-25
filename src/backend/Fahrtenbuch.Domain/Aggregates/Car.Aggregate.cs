@@ -1,3 +1,4 @@
+using ErrorOr;
 using Fahrtenbuch.Domain.SharedKernel;
 using Fahrtenbuch.Domain.ValueObjects;
 
@@ -18,8 +19,16 @@ public class Car : Aggregate
         Name = name;
     }
 
-    public static Car Create(CarId id, string name)
+    public static ErrorOr<Car> Create(CarId id, string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Error.Validation(
+                code: "Car.InvalidName",
+                description: "Car name cannot be empty."
+            );
+        }
+
         return new Car
         {
             Id = id,
