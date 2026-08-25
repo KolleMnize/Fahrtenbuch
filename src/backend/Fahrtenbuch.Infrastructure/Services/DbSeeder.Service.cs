@@ -39,12 +39,13 @@ internal class DbSeederService(
                     Mileage1Id,
                     Car1Id,
                     100,
-                    DateTime.Parse("2024-01-01T00:00:00Z"));
+                    DateTime.Parse("2024-01-01T00:00:00Z")).Value;
+
         Mileage mileage2 = mileageDomainService.CreateMileage(
                     Mileage2Id,
                     Car2Id,
                     200,
-                    DateTime.Parse("2024-01-03T00:00:00Z"));
+                    DateTime.Parse("2024-01-03T00:00:00Z")).Value;
 
 
         if (!dbContext.Mileages.Any())

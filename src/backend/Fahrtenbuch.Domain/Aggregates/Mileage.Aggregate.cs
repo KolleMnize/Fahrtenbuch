@@ -1,3 +1,4 @@
+using ErrorOr;
 using Fahrtenbuch.Domain.SharedKernel;
 using Fahrtenbuch.Domain.ValueObjects;
 
@@ -14,8 +15,11 @@ public class Mileage : Aggregate
     {
         // Required for EF Core
     }
-    internal static Mileage Create(MileageId id, CarId carId, decimal value, DateTime date)
+    internal static ErrorOr<Mileage> Create(MileageId id, CarId carId, decimal value, DateTime date)
     {
+        if (value < 0)
+            return Error.Validation(code: "InvalidMileageValue", description: "Mileage value cannot be negative.");
+
         return new Mileage
         {
             Id = id,
