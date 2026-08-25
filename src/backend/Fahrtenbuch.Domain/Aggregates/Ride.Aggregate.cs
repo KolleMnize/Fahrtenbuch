@@ -1,3 +1,4 @@
+using ErrorOr;
 using Fahrtenbuch.Domain.SharedKernel;
 using Fahrtenbuch.Domain.ValueObjects;
 namespace Fahrtenbuch.Domain.Aggregates;
@@ -14,7 +15,7 @@ public class Ride : Aggregate
         // Required for EF Core
     }
 
-    public static Ride Create(RideId id, string description, MileageId startMileage)
+    public static ErrorOr<Ride> Create(RideId id, string description, MileageId startMileage)
     {
         return new Ride
         {
@@ -25,13 +26,15 @@ public class Ride : Aggregate
         };
     }
 
-    internal void EndRide(MileageId endMileage)
+    internal ErrorOr<Ride> EndRide(MileageId endMileage)
     {
         if (EndMileageId != null)
         {
-            throw new InvalidOperationException("Ride has already ended.");
+            return Error.Validation(code: "RideAlreadyEnded", description: "The ride has already been ended.");
         }
 
         EndMileageId = endMileage;
+
+        return this;
     }
 }

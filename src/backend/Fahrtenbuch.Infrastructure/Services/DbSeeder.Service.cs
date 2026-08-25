@@ -78,12 +78,12 @@ internal class DbSeederService(
         Ride ride1 = Ride.Create(
             Ride1Id,
             "Beschreibung 1",
-            mileage1.Id);
+            mileage1.Id).Value;
 
         Ride ride2 = Ride.Create(
             Ride2Id,
             "Beschreibung 2",
-            mileage1.Id);
+            mileage1.Id).Value;
 
         if (!dbContext.Rides.Any())
         {
@@ -96,8 +96,7 @@ internal class DbSeederService(
 
         Ride endedRide = rideDomainService.EndRide(
             ride1,
-            mileage2.Id);
-
+            mileage2.Id).Value;
 
         dbContext.SaveChanges();
     }

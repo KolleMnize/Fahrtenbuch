@@ -16,23 +16,28 @@ public class RideManagementService(
     RideDomainService rideService
     )
 {
-    public async Task<ErrorOr<Success>> Handle(CreateRideCommand command)
+    public async Task<ErrorOr<Ride>> Handle(CreateRideCommand command)
     {
         var mileageExists = mileageRepository.Exists(MileageId.Create(command.StartMileageId).Value);
         if (!mileageExists)
             return Error.Validation(code: "MileageNotFound", description: $"Mileage with id {command.StartMileageId} does not exist.");
 
-        var ride = Ride.Create(
+        var rideCreateResult = Ride.Create(
             RideId.Create(Guid.NewGuid()).Value,
             command.Description,
             MileageId.Create(command.StartMileageId).Value);
 
-        rideRepository.Create(ride);
+        if (rideCreateResult.IsError)
+        {
+            return rideCreateResult.Errors;
+        }
 
-        return Result.Success;
+        rideRepository.Create(rideCreateResult.Value);
+
+        return rideCreateResult.Value;
     }
 
-    public async Task<ErrorOr<Success>> Handle(EndRideCommand command)
+    public async Task<ErrorOr<Ride>> Handle(EndRideCommand command)
     {
         var mileageExists = mileageRepository.Exists(MileageId.Create(command.EndMileageId).Value);
         if (!mileageExists)
@@ -42,11 +47,16 @@ public class RideManagementService(
         if (ride == null)
             return Error.Validation(code: "RideNotFound", description: $"Ride with id {command.RideId} does not exist.");
 
-        Ride updatedRide = rideService.EndRide(ride, MileageId.Create(command.EndMileageId).Value);
+        var rideEndRideResult = rideService.EndRide(ride, MileageId.Create(command.EndMileageId).Value);
 
-        rideRepository.Update(updatedRide);
+        if (rideEndRideResult.IsError)
+        {
+            return rideEndRideResult.Errors;
+        }
 
-        return Result.Success;
+        rideRepository.Update(rideEndRideResult.Value);
+
+        return rideEndRideResult.Value;
     }
 
     public async Task<GetRidesQueryResult> Handle(GetRidesQuery query)
