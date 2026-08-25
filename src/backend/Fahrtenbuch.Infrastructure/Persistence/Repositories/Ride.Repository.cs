@@ -2,45 +2,46 @@ using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
 using Fahrtenbuch.Domain.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
 public class RideRepository(FahrtenbuchDbContext dbContext) : IRideRepository
 {
-    public void Create(Ride ride)
+    public async Task Create(Ride ride)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         dbContext.Set<Ride>().Add(ride);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
-    public bool Exists(RideId rideId)
+    public async Task<bool> Exists(RideId rideId)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-        return dbContext.Set<Ride>().Any(r => r.Id.Value == rideId.Value);
+        return await dbContext.Set<Ride>().AnyAsync(r => r.Id.Value == rideId.Value);
     }
 
-    public IEnumerable<Ride> GetAll()
+    public async Task<IEnumerable<Ride>> GetAll()
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-        return dbContext.Set<Ride>().ToList();
+        return await dbContext.Set<Ride>().ToListAsync();
     }
 
-    public Ride? GetById(RideId rideId)
+    public async Task<Ride?> GetById(RideId rideId)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-        return dbContext.Set<Ride>().FirstOrDefault(r => r.Id.Value == rideId.Value);
+        return await dbContext.Set<Ride>().FirstOrDefaultAsync(r => r.Id.Value == rideId.Value);
     }
 
-    public void Update(Ride ride)
+    public async Task Update(Ride ride)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
@@ -51,6 +52,6 @@ public class RideRepository(FahrtenbuchDbContext dbContext) : IRideRepository
             entry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
 
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 }

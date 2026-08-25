@@ -5,7 +5,7 @@ namespace Fahrtenbuch.Infrastructure.Services;
 
 public class DbInitializationService(IServiceProvider serviceProvider)
 {
-    public void InitializeDatabase()
+    public async Task InitializeDatabase()
     {
         using (var scope = serviceProvider.CreateScope())
         {
@@ -14,7 +14,7 @@ public class DbInitializationService(IServiceProvider serviceProvider)
             dbContext.Database.EnsureCreated();
 
             var dbSeederService = scope.ServiceProvider.GetRequiredService<DbSeederService>();
-            dbSeederService.Seed();
+            await dbSeederService.Seed();
         }
     }
 }

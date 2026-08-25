@@ -11,7 +11,7 @@ internal class DbSeederService(
     MileageDomainService mileageDomainService,
     RideDomainService rideDomainService)
 {
-    internal void Seed()
+    internal async Task Seed()
     {
 
         CarId Car1Id = CarId.Create(Guid.Parse("12473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
@@ -35,18 +35,21 @@ internal class DbSeederService(
             dbContext.SaveChanges();
         }
 
-        Mileage mileage1 = mileageDomainService.CreateMileage(
+        var mileage1CreateResult = await mileageDomainService.CreateMileage(
                     Mileage1Id,
                     Car1Id,
                     100,
-                    DateTime.Parse("2024-01-01T00:00:00Z")).Value;
+                    DateTime.Parse("2024-01-01T00:00:00Z"));
 
-        Mileage mileage2 = mileageDomainService.CreateMileage(
+        Mileage mileage1 = mileage1CreateResult.Value;
+
+        var mileage2CreateResult = await mileageDomainService.CreateMileage(
                     Mileage2Id,
                     Car2Id,
                     200,
-                    DateTime.Parse("2024-01-03T00:00:00Z")).Value;
+                    DateTime.Parse("2024-01-03T00:00:00Z"));
 
+        Mileage mileage2 = mileage2CreateResult.Value;
 
         if (!dbContext.Mileages.Any())
         {
@@ -94,9 +97,9 @@ internal class DbSeederService(
             dbContext.SaveChanges();
         }
 
-        Ride endedRide = rideDomainService.EndRide(
+        await rideDomainService.EndRide(
             ride1,
-            mileage2.Id).Value;
+            mileage2.Id);
 
         dbContext.SaveChanges();
     }

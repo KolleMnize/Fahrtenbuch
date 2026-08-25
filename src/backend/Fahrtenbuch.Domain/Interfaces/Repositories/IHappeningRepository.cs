@@ -4,7 +4,7 @@ namespace Fahrtenbuch.Domain.Interfaces.Repositories;
 
 public interface IHappeningRepository
 {
-    void Create(Happening happening);
-    IEnumerable<Happening> GetAll();
+    Task Create(Happening happening);
+    Task<IEnumerable<Happening>> GetAll();
 
 }

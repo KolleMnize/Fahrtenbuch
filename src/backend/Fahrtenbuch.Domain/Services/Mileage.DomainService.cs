@@ -6,10 +6,10 @@ namespace Fahrtenbuch.Domain.Services;
 
 public class MileageDomainService(IMileageRepository mileageRepository)
 {
-    public ErrorOr<Mileage> CreateMileage(MileageId id, CarId carId, decimal value, DateTime date)
+    public async Task<ErrorOr<Mileage>> CreateMileage(MileageId id, CarId carId, decimal value, DateTime date)
     {
-        Mileage? previousMileage = mileageRepository.GetPreviousMileageFromDate(carId, date);
-        Mileage? followingMileage = mileageRepository.GetFollowingMileageFromDate(carId, date);
+        Mileage? previousMileage = await mileageRepository.GetPreviousMileageFromDate(carId, date);
+        Mileage? followingMileage = await mileageRepository.GetFollowingMileageFromDate(carId, date);
 
         if (previousMileage != null && value < previousMileage.Value)
         {

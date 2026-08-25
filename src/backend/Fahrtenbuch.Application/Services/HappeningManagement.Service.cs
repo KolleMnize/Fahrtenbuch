@@ -16,7 +16,7 @@ namespace Fahrtenbuch.Application.Services
     {
         public async Task<ErrorOr<Happening>> Handle(CreateHappeningCommand command)
         {
-            var mileageExists = mileageRepository.Exists(MileageId.Create(command.MileageId).Value);
+            var mileageExists = await mileageRepository.Exists(MileageId.Create(command.MileageId).Value);
             if (!mileageExists)
                 return Error.Validation(code: "MileageNotFound", description: $"Mileage with id {command.MileageId} does not exist.");
 
@@ -30,14 +30,14 @@ namespace Fahrtenbuch.Application.Services
                 return happeningCreateResult.Errors;
             }
 
-            happeningRepository.Create(happeningCreateResult.Value);
+            await happeningRepository.Create(happeningCreateResult.Value);
 
             return happeningCreateResult.Value;
         }
 
         public async Task<GetHappeningsQueryResult> Handle(GetHappeningsQuery query)
         {
-            IEnumerable<Happening> repoResult = happeningRepository.GetAll();
+            IEnumerable<Happening> repoResult = await happeningRepository.GetAll();
             IEnumerable<HappeningDto> happeningDtos = repoResult.Select(HappeningDtoMapper.HappeningToHappeningDto);
 
             return new GetHappeningsQueryResult(happeningDtos);

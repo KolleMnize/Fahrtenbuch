@@ -7,10 +7,10 @@ namespace Fahrtenbuch.Domain.Services;
 
 public class RideDomainService(IMileageRepository mileageRepository)
 {
-    public ErrorOr<Ride> EndRide(Ride ride, MileageId endMileage)
+    public async Task<ErrorOr<Ride>> EndRide(Ride ride, MileageId endMileage)
     {
-        Mileage? startMileageEntity = mileageRepository.GetById(ride.StartMileageId);
-        Mileage? endMileageEntity = mileageRepository.GetById(endMileage);
+        Mileage? startMileageEntity = await mileageRepository.GetById(ride.StartMileageId);
+        Mileage? endMileageEntity = await mileageRepository.GetById(endMileage);
 
         if (startMileageEntity == null)
         {

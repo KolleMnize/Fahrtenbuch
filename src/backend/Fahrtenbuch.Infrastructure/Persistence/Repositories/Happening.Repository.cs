@@ -1,26 +1,27 @@
 using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories
 {
     public class HappeningRepository(FahrtenbuchDbContext dbContext) : IHappeningRepository
     {
-        public void Create(Happening happening)
+        public async Task Create(Happening happening)
         {
             // var scope = serviceProvider.CreateScope();
             // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
             dbContext.Set<Happening>().Add(happening);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<Happening> GetAll()
+        public async Task<IEnumerable<Happening>> GetAll()
         {
             // var scope = serviceProvider.CreateScope();
             // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-            return dbContext.Set<Happening>().ToList();
+            return await dbContext.Set<Happening>().ToListAsync();
         }
     }
 }

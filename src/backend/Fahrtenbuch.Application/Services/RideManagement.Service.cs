@@ -18,7 +18,7 @@ public class RideManagementService(
 {
     public async Task<ErrorOr<Ride>> Handle(CreateRideCommand command)
     {
-        var mileageExists = mileageRepository.Exists(MileageId.Create(command.StartMileageId).Value);
+        var mileageExists = await mileageRepository.Exists(MileageId.Create(command.StartMileageId).Value);
         if (!mileageExists)
             return Error.Validation(code: "MileageNotFound", description: $"Mileage with id {command.StartMileageId} does not exist.");
 
@@ -32,36 +32,36 @@ public class RideManagementService(
             return rideCreateResult.Errors;
         }
 
-        rideRepository.Create(rideCreateResult.Value);
+        await rideRepository.Create(rideCreateResult.Value);
 
         return rideCreateResult.Value;
     }
 
     public async Task<ErrorOr<Ride>> Handle(EndRideCommand command)
     {
-        var mileageExists = mileageRepository.Exists(MileageId.Create(command.EndMileageId).Value);
+        var mileageExists = await mileageRepository.Exists(MileageId.Create(command.EndMileageId).Value);
         if (!mileageExists)
             return Error.Validation(code: "MileageNotFound", description: $"Mileage with id {command.EndMileageId} does not exist.");
 
-        var ride = rideRepository.GetById(RideId.Create(command.RideId).Value);
+        var ride = await rideRepository.GetById(RideId.Create(command.RideId).Value);
         if (ride == null)
             return Error.Validation(code: "RideNotFound", description: $"Ride with id {command.RideId} does not exist.");
 
-        var rideEndRideResult = rideService.EndRide(ride, MileageId.Create(command.EndMileageId).Value);
+        var rideEndRideResult = await rideService.EndRide(ride, MileageId.Create(command.EndMileageId).Value);
 
         if (rideEndRideResult.IsError)
         {
             return rideEndRideResult.Errors;
         }
 
-        rideRepository.Update(rideEndRideResult.Value);
+        await rideRepository.Update(rideEndRideResult.Value);
 
         return rideEndRideResult.Value;
     }
 
     public async Task<GetRidesQueryResult> Handle(GetRidesQuery query)
     {
-        IEnumerable<Ride> repoResult = rideRepository.GetAll();
+        IEnumerable<Ride> repoResult = await rideRepository.GetAll();
         IEnumerable<RideDto> rideDtos = repoResult.Select(RideDtoMapper.RideToRideDto);
 
         return new GetRidesQueryResult(rideDtos);

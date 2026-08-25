@@ -15,7 +15,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbInitializationService = scope.ServiceProvider.GetRequiredService<DbInitializationService>();
-    dbInitializationService.InitializeDatabase();
+    await dbInitializationService.InitializeDatabase();
 }
 
 

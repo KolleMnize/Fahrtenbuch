@@ -2,29 +2,30 @@ using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
 using Fahrtenbuch.Domain.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
 public class MileageRepository(FahrtenbuchDbContext dbContext) : IMileageRepository
 {
-    public void Create(Mileage mileage)
+    public async Task Create(Mileage mileage)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
         dbContext.Set<Mileage>().Add(mileage);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
-    public IEnumerable<Mileage> GetAll()
+    public async Task<IEnumerable<Mileage>> GetAll()
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-        return dbContext.Set<Mileage>().ToList();
+        return await dbContext.Set<Mileage>().ToListAsync();
     }
 
-    public Mileage? GetFollowingMileageFromDate(CarId carId, DateTime date)
+    public async Task<Mileage?> GetFollowingMileageFromDate(CarId carId, DateTime date)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
@@ -32,12 +33,12 @@ public class MileageRepository(FahrtenbuchDbContext dbContext) : IMileageReposit
         var mileage = dbContext.Set<Mileage>()
             .Where(m => m.CarId.Value == carId.Value && m.Date > date)
             .OrderBy(m => m.Date)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
 
-        return mileage != null ? mileage : null;
+        return await mileage != null ? await mileage : null;
     }
 
-    public Mileage? GetPreviousMileageFromDate(CarId carId, DateTime date)
+    public async Task<Mileage?> GetPreviousMileageFromDate(CarId carId, DateTime date)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
@@ -45,24 +46,24 @@ public class MileageRepository(FahrtenbuchDbContext dbContext) : IMileageReposit
         var mileage = dbContext.Set<Mileage>()
             .Where(m => m.CarId.Value == carId.Value && m.Date < date)
             .OrderByDescending(m => m.Date)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
 
-        return mileage != null ? mileage : null;
+        return await mileage != null ? await mileage : null;
     }
 
-    public bool Exists(MileageId mileageId)
+    public async Task<bool> Exists(MileageId mileageId)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-        return dbContext.Set<Mileage>().Any(m => m.Id.Value == mileageId.Value);
+        return await dbContext.Set<Mileage>().AnyAsync(m => m.Id.Value == mileageId.Value);
     }
 
-    public Mileage? GetById(MileageId mileageId)
+    public async Task<Mileage?> GetById(MileageId mileageId)
     {
         // var scope = serviceProvider.CreateScope();
         // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-        return dbContext.Set<Mileage>().FirstOrDefault(m => m.Id.Value == mileageId.Value);
+        return await dbContext.Set<Mileage>().FirstOrDefaultAsync(m => m.Id.Value == mileageId.Value);
     }
 }

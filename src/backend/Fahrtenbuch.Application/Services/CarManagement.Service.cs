@@ -19,12 +19,12 @@ public class CarManagementService(ICarRepository carRepository)
         }
 
         Car car = carCreateResult.Value;
-        carRepository.Create(car);
+        await carRepository.Create(car);
     }
 
     public async Task<GetCarsQueryResult> Handle(GetCarsQuery query)
     {
-        IEnumerable<Car> repoResult = carRepository.GetAll();
+        IEnumerable<Car> repoResult = await carRepository.GetAll();
         IEnumerable<CarDto> carDtos = repoResult.Select(CarDtoMapper.CarToCarDto);
 
         return new GetCarsQueryResult(carDtos);

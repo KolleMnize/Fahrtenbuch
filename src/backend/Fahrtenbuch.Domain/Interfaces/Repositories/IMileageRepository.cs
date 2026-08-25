@@ -4,10 +4,10 @@ namespace Fahrtenbuch.Domain.Interfaces.Repositories;
 
 public interface IMileageRepository
 {
-    void Create(Mileage mileage);
-    IEnumerable<Mileage> GetAll();
-    Mileage? GetById(MileageId mileageId);
-    Mileage? GetFollowingMileageFromDate(CarId carId, DateTime date);
-    Mileage? GetPreviousMileageFromDate(CarId carId, DateTime date);
-    bool Exists(MileageId mileageId);
+    Task Create(Mileage mileage);
+    Task<IEnumerable<Mileage>> GetAll();
+    Task<Mileage?> GetById(MileageId mileageId);
+    Task<Mileage?> GetFollowingMileageFromDate(CarId carId, DateTime date);
+    Task<Mileage?> GetPreviousMileageFromDate(CarId carId, DateTime date);
+    Task<bool> Exists(MileageId mileageId);
 }

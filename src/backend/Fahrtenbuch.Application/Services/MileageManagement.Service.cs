@@ -14,11 +14,12 @@ public class MileageManagementService(ICarRepository carRepository, IMileageRepo
 {
     public async Task<ErrorOr<Mileage>> Handle(CreateMileageCommand command)
     {
-        var carExists = carRepository.Exists(CarId.Create(command.CarId).Value);
-        if (!carExists)
+        bool carExisting = await carRepository.Exists(CarId.Create(command.CarId).Value);
+
+        if (!carExisting)
             return Error.Validation(code: "CarNotFound", description: $"Car with id {command.CarId} does not exist.");
 
-        var mileageCreateResult = mileageService.CreateMileage(
+        var mileageCreateResult = await mileageService.CreateMileage(
             MileageId.Create(Guid.NewGuid()).Value,
             CarId.Create(command.CarId).Value,
             command.Value,
@@ -29,14 +30,14 @@ public class MileageManagementService(ICarRepository carRepository, IMileageRepo
             return mileageCreateResult.Errors;
         }
 
-        mileageRepository.Create(mileageCreateResult.Value);
+        await mileageRepository.Create(mileageCreateResult.Value);
 
         return mileageCreateResult.Value;
     }
 
     public async Task<GetMileagesQueryResult> Handle(GetMileagesQuery query)
     {
-        IEnumerable<Mileage> repoResult = mileageRepository.GetAll();
+        IEnumerable<Mileage> repoResult = await mileageRepository.GetAll();
         IEnumerable<MileageDto> mileageDtos = repoResult.Select(MileageDtoMapper.MileageToMileageDto);
 
         return new GetMileagesQueryResult(mileageDtos);
