@@ -3,33 +3,70 @@ using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
 using Fahrtenbuch.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class CarRepository(FahrtenbuchDbContext dbContext) : ICarRepository
+public class CarRepository(FahrtenbuchDbContext dbContext, ILogger<CarRepository> logger) : ICarRepository
 {
-    public async Task Create(Car carEntity)
-    {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
 
-        dbContext.Set<Car>().Add(carEntity);
-        await dbContext.SaveChangesAsync();
+    public async Task<ErrorOr<bool>> Exists(CarId carId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbresult = await dbContext.Cars.AnyAsync(c => c.Id.Value == carId.Value, cancellationToken);
+            return dbresult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("The operation was canceled while checking if a car exists.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while checking if a car exists.");
+            return Error.Unexpected("Car.UnexpectedError", "An error occurred while checking if a car exists.");
+        }
     }
 
-    public async Task<IEnumerable<Car>> GetAll()
+    public async Task<ErrorOr<Success>> Create(Car carEntity, CancellationToken cancellationToken = default)
     {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-
-        return await dbContext.Set<Car>().ToListAsync();
+        try
+        {
+            dbContext.Cars.Add(carEntity);
+            await dbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("The operation was canceled while creating a car.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while creating a car.");
+            return Error.Unexpected("Car.UnexpectedError", "An error occurred while creating a car.");
+        }
     }
 
-    public async Task<bool> Exists(CarId carId)
+    public async Task<ErrorOr<IReadOnlyList<Car>>> GetAll(CancellationToken cancellationToken = default)
     {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-        return await Task.FromResult(dbContext.Set<Car>().Any(c => c.Id.Value == carId.Value));
+        try
+        {
+            var dbresult = await dbContext.Cars.ToListAsync(cancellationToken);
+            return dbresult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("The operation was canceled while retrieving all cars.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving all cars.");
+            return Error.Unexpected("Car.UnexpectedError", "An error occurred while retrieving all cars.");
+        }
     }
+
+
 }
