@@ -1,7 +1,6 @@
-using Fahrtenbuch.Application.Dtos;
 using Fahrtenbuch.Domain.Aggregates;
 
-namespace Fahrtenbuch.Application.Mapper;
+namespace Fahrtenbuch.Application.Features.Cars;
 
 internal static class CarDtoMapper
 {
