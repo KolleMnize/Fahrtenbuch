@@ -13,7 +13,7 @@ public class GetCarsHandler(ICarRepository carRepository) : IQueryHandler<GetCar
         if (repoResult.IsError)
             return repoResult.Errors;
 
-        IEnumerable<CarDto> carDtos = repoResult.Value.Select(CarDtoMapper.CarToCarDto);
+        IReadOnlyList<CarDto> carDtos = repoResult.Value.Select(CarDtoMapper.CarToCarDto).ToList();
 
         return new GetCarsQueryResult(carDtos);
     }
