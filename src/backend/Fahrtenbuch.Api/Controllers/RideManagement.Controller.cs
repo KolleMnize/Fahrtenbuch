@@ -1,4 +1,6 @@
+using Fahrtenbuch.Api.Extensions;
 using Fahrtenbuch.Application.Commands;
+using Fahrtenbuch.Application.Features.Rides.CreateRide;
 using Fahrtenbuch.Application.Querys;
 using Fahrtenbuch.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,17 +9,13 @@ namespace Fahrtenbuch.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RideManagementController(RideManagementService rideManagementService) : ControllerBase
+public class RideManagementController(CreateRideHandler createRideCommandHandler, RideManagementService rideManagementService) : ControllerBase
 {
     [HttpPost("CreateRide", Name = "CreateRide")]
     public async Task<IActionResult> CreateRide(CreateRideCommand command)
     {
-        var result = await rideManagementService.Handle(command);
-        if (result.IsError)
-        {
-            return BadRequest(result.Errors);
-        }
-        return Ok();
+        var result = await createRideCommandHandler.Handle(command);
+        return result.ToProblemDetails(this);
     }
 
     [HttpPut("EndRide", Name = "EndRide")]
