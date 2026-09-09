@@ -1,4 +1,4 @@
 namespace Fahrtenbuch.Application.Features.Cars.GetCars;
 
-public record GetCarsQueryResult(IEnumerable<CarDto> Cars);
+public record GetCarsQueryResult(IReadOnlyList<CarDto> Cars);
 

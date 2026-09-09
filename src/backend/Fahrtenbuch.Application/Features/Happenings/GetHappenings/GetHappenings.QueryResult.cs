@@ -1,3 +1,3 @@
 namespace Fahrtenbuch.Application.Features.Happenings.GetHappenings;
 
-public record GetHappeningsQueryResult(IEnumerable<HappeningDto> Result);
+public record GetHappeningsQueryResult(IReadOnlyList<HappeningDto> Result);
