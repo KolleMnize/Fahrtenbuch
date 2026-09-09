@@ -8,6 +8,7 @@ using Fahrtenbuch.Application.Features.Mileages.CreateMileage;
 using Fahrtenbuch.Application.Features.Happenings.CreateHappening;
 using Fahrtenbuch.Application.Features.Happenings.GetHappenings;
 using Fahrtenbuch.Application.Features.Rides.CreateRide;
+using Fahrtenbuch.Application.Features.Rides.GetRides;
 
 namespace Fahrtenbuch.Application.Installer;
 
@@ -28,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<GetHappeningsHandler>();
 
         services.AddScoped<CreateRideHandler>();
+        services.AddScoped<GetRidesHandler>();
 
         services.AddScoped<RideManagementService>();
     }
