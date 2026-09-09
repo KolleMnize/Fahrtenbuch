@@ -5,6 +5,7 @@ using Fahrtenbuch.Application.Features.Cars.GetCars;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Fahrtenbuch.Application.Features.Mileages.CreateMileage;
+using Fahrtenbuch.Application.Features.Happenings.CreateHappening;
 
 namespace Fahrtenbuch.Application.Installer;
 
@@ -20,6 +21,8 @@ public static class DependencyInjection
 
         services.AddScoped<CreateMileageHandler>();
         services.AddScoped<GetMileagesHandler>();
+
+        services.AddScoped<CreateHappeningHandler>();
 
         services.AddScoped<HappeningManagementService>();
         services.AddScoped<RideManagementService>();

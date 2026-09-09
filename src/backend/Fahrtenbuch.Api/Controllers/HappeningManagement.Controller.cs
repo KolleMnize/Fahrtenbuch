@@ -1,4 +1,6 @@
+using Fahrtenbuch.Api.Extensions;
 using Fahrtenbuch.Application.Commands;
+using Fahrtenbuch.Application.Features.Happenings.CreateHappening;
 using Fahrtenbuch.Application.Querys;
 using Fahrtenbuch.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,17 +9,13 @@ namespace Fahrtenbuch.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class HappeningManagementController(HappeningManagementService happeningManagementService) : ControllerBase
+public class HappeningManagementController(CreateHappeningHandler createHappeningHandler, HappeningManagementService happeningManagementService) : ControllerBase
 {
     [HttpPost("CreateHappening", Name = "CreateHappening")]
     public async Task<IActionResult> CreateHappening(CreateHappeningCommand command)
     {
-        var result = await happeningManagementService.Handle(command);
-        if (result.IsError)
-        {
-            return BadRequest(result.Errors);
-        }
-        return Ok();
+        var result = await createHappeningHandler.Handle(command);
+        return result.ToProblemDetails(this);
     }
 
     [HttpGet("GetHappenings", Name = "GetHappenings")]
