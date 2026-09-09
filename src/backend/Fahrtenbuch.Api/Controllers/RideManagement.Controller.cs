@@ -1,15 +1,14 @@
 using Fahrtenbuch.Api.Extensions;
-using Fahrtenbuch.Application.Commands;
 using Fahrtenbuch.Application.Features.Rides.CreateRide;
+using Fahrtenbuch.Application.Features.Rides.EndRide;
 using Fahrtenbuch.Application.Features.Rides.GetRides;
-using Fahrtenbuch.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fahrtenbuch.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RideManagementController(CreateRideHandler createRideCommandHandler, GetRidesHandler getRidesHandler, RideManagementService rideManagementService) : ControllerBase
+public class RideManagementController(CreateRideHandler createRideCommandHandler, GetRidesHandler getRidesHandler, EndRideHandler endRideHandler) : ControllerBase
 {
     [HttpPost("CreateRide", Name = "CreateRide")]
     public async Task<IActionResult> CreateRide(CreateRideCommand command)
@@ -21,12 +20,8 @@ public class RideManagementController(CreateRideHandler createRideCommandHandler
     [HttpPut("EndRide", Name = "EndRide")]
     public async Task<IActionResult> EndRide(EndRideCommand command)
     {
-        var result = await rideManagementService.Handle(command);
-        if (result.IsError)
-        {
-            return BadRequest(result.Errors);
-        }
-        return Ok();
+        var result = await endRideHandler.Handle(command);
+        return result.ToProblemDetails(this);
     }
 
     [HttpGet("GetRides", Name = "GetRides")]

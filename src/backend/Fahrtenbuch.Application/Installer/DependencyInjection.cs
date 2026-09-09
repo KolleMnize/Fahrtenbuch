@@ -1,5 +1,4 @@
 using Fahrtenbuch.Application.Features.Cars.CreateCar;
-using Fahrtenbuch.Application.Services;
 using Fahrtenbuch.Application.Features.Mileages.GetMileages;
 using Fahrtenbuch.Application.Features.Cars.GetCars;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +8,7 @@ using Fahrtenbuch.Application.Features.Happenings.CreateHappening;
 using Fahrtenbuch.Application.Features.Happenings.GetHappenings;
 using Fahrtenbuch.Application.Features.Rides.CreateRide;
 using Fahrtenbuch.Application.Features.Rides.GetRides;
+using Fahrtenbuch.Application.Features.Rides.EndRide;
 
 namespace Fahrtenbuch.Application.Installer;
 
@@ -30,8 +30,7 @@ public static class DependencyInjection
 
         services.AddScoped<CreateRideHandler>();
         services.AddScoped<GetRidesHandler>();
-
-        services.AddScoped<RideManagementService>();
+        services.AddScoped<EndRideHandler>();
     }
 
 }
