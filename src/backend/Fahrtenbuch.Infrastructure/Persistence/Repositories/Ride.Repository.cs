@@ -1,57 +1,114 @@
 using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
 using Fahrtenbuch.Domain.ValueObjects;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using ErrorOr;
+using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class RideRepository(FahrtenbuchDbContext dbContext) : IRideRepository
+public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideRepository> logger) : IRideRepository
 {
-    public async Task Create(Ride ride)
+    public async Task<ErrorOr<Success>> Create(Ride ride, CancellationToken cancellationToken = default)
     {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-
-        dbContext.Set<Ride>().Add(ride);
-        await dbContext.SaveChangesAsync();
-    }
-
-    public async Task<bool> Exists(RideId rideId)
-    {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-
-        return await dbContext.Set<Ride>().AnyAsync(r => r.Id.Value == rideId.Value);
-    }
-
-    public async Task<IEnumerable<Ride>> GetAll()
-    {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-
-        return await dbContext.Set<Ride>().ToListAsync();
-    }
-
-    public async Task<Ride?> GetById(RideId rideId)
-    {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-
-        return await dbContext.Set<Ride>().FirstOrDefaultAsync(r => r.Id.Value == rideId.Value);
-    }
-
-    public async Task Update(Ride ride)
-    {
-        // var scope = serviceProvider.CreateScope();
-        // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-        var entry = dbContext.Entry(ride);
-        if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+        try
         {
-            dbContext.Set<Ride>().Attach(ride);
-            entry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            dbContext.Rides.Add(ride);
+            await dbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success;
         }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while creating a ride.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while creating a ride.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while creating a ride.");
+        }
+    }
 
-        await dbContext.SaveChangesAsync();
+    public async Task<ErrorOr<bool>> Exists(RideId rideId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbResult = await dbContext.Rides.AnyAsync(r => r.Id.Value == rideId.Value, cancellationToken);
+            return dbResult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while checking if a ride exists.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while checking if a ride exists.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while checking if a ride exists.");
+        }
+    }
+
+    public async Task<ErrorOr<IReadOnlyList<Ride>>> GetAll(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbResult = await dbContext.Rides.ToListAsync(cancellationToken);
+            return dbResult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while retrieving all rides.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving all rides.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while retrieving all rides.");
+        }
+    }
+
+    public async Task<ErrorOr<Ride?>> GetById(RideId rideId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbResult = await dbContext.Rides.FirstOrDefaultAsync(r => r.Id.Value == rideId.Value, cancellationToken);
+            return dbResult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while retrieving a ride by ID.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving a ride by ID.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while retrieving a ride by ID.");
+        }
+    }
+
+    public async Task<ErrorOr<Success>> Update(Ride ride, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var entry = dbContext.Entry(ride);
+            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                dbContext.Rides.Attach(ride);
+                entry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+
+            await dbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while updating a ride.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while updating a ride.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while updating a ride.");
+        }
     }
 }
