@@ -1,9 +1,6 @@
 using Fahrtenbuch.Api.Extensions;
-using Fahrtenbuch.Application.Commands;
 using Fahrtenbuch.Application.Features.Mileages.CreateMileage;
 using Fahrtenbuch.Application.Features.Mileages.GetMileages;
-using Fahrtenbuch.Application.Querys;
-using Fahrtenbuch.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fahrtenbuch.Api.Controllers;

@@ -1,4 +1,3 @@
-using Fahrtenbuch.Application.Dtos;
 using Fahrtenbuch.Domain.Aggregates;
 
 namespace Fahrtenbuch.Application.Features.Happenings;
