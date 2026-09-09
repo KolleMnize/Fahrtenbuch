@@ -7,15 +7,18 @@ namespace Fahrtenbuch.Domain.Services;
 
 public class RideDomainService(IMileageRepository mileageRepository)
 {
-    public async Task<ErrorOr<Ride>> EndRide(Ride ride, MileageId endMileage)
+    public async Task<ErrorOr<Ride>> EndRide(Ride ride, MileageId endMileage, CancellationToken cancellationToken = default)
     {
-        Mileage? startMileageEntity = await mileageRepository.GetById(ride.StartMileageId);
-        Mileage? endMileageEntity = await mileageRepository.GetById(endMileage);
+        var startMileageResult = await mileageRepository.GetById(ride.StartMileageId, cancellationToken);
+        if (startMileageResult.IsError)
+            return startMileageResult.Errors;
+        var startMileageEntity = startMileageResult.Value;
 
-        if (startMileageEntity == null)
-        {
-            return Error.Validation(code: "StartMileageNotFound", description: $"Start mileage with ID {ride.StartMileageId} does not exist.");
-        }
+        var endMileageEntityResult = await mileageRepository.GetById(endMileage, cancellationToken);
+        if (endMileageEntityResult.IsError)
+            return endMileageEntityResult.Errors;
+        var endMileageEntity = endMileageEntityResult.Value;
+
         if (endMileageEntity == null)
         {
             return Error.Validation(code: "EndMileageNotFound", description: $"End mileage with ID {endMileage} does not exist.");
@@ -29,13 +32,6 @@ public class RideDomainService(IMileageRepository mileageRepository)
             return Error.Validation(code: "InvalidMileageValue", description: "The end mileage value cannot be lower than the start mileage value.");
         }
 
-        var rideEndRideResult = ride.EndRide(endMileage);
-
-        if (rideEndRideResult.IsError)
-        {
-            return rideEndRideResult.Errors;
-        }
-
-        return rideEndRideResult.Value;
+        return ride.EndRide(endMileage);
     }
 }
