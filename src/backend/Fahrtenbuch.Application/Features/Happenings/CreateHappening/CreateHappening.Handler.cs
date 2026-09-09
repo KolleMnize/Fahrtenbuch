@@ -21,13 +21,13 @@ public class CreateHappeningHandler(
         if (mileageExistsResult.IsError)
             return mileageExistsResult.Errors;
         if (!mileageExistsResult.Value)
-            return Error.Validation(code: "MileageNotFound", description: $"Mileage with id {command.MileageId} does not exist.");
+            return Error.Validation(code: "Mileage.Validation", description: $"Mileage with id {command.MileageId} does not exist.");
 
 
         var happeningCreateResult = Happening.Create(
             HappeningId.Create(Guid.NewGuid()).Value,
             command.Description,
-            MileageId.Create(command.MileageId).Value);
+            mileageIdCreateResult.Value);
         if (happeningCreateResult.IsError)
             return happeningCreateResult.Errors;
 
