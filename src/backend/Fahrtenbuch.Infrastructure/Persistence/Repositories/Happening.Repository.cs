@@ -1,27 +1,50 @@
+using ErrorOr;
 using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories
 {
-    public class HappeningRepository(FahrtenbuchDbContext dbContext) : IHappeningRepository
+    public class HappeningRepository(FahrtenbuchDbContext dbContext, ILogger<HappeningRepository> logger) : IHappeningRepository
     {
-        public async Task Create(Happening happening)
+        public async Task<ErrorOr<Success>> Create(Happening happening, CancellationToken cancellationToken = default)
         {
-            // var scope = serviceProvider.CreateScope();
-            // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-
-            dbContext.Set<Happening>().Add(happening);
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                var dbResult = dbContext.Happenings.Add(happening);
+                await dbContext.SaveChangesAsync(cancellationToken);
+                return Result.Success;
+            }
+            catch (OperationCanceledException)
+            {
+                logger.LogDebug("Operation canceled while creating a happening");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while creating a happening");
+                return Error.Unexpected("Happening.UnexpectedError", "An error occurred while creating a happening");
+            }
         }
 
-        public async Task<IEnumerable<Happening>> GetAll()
+        public async Task<ErrorOr<IReadOnlyList<Happening>>> GetAll(CancellationToken cancellationToken = default)
         {
-            // var scope = serviceProvider.CreateScope();
-            // var dbContext = scope.ServiceProvider.GetRequiredService<FahrtenbuchDbContext>();
-
-            return await dbContext.Set<Happening>().ToListAsync();
+            try
+            {
+                var dbResult = await dbContext.Happenings.ToListAsync(cancellationToken);
+                return dbResult;
+            }
+            catch (OperationCanceledException)
+            {
+                logger.LogDebug("Operation was canceled while retrieving all happenings");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while retrieving all happenings");
+                return Error.Unexpected("Happening.UnexpectedError", "An error occurred while retrieving all happenings");
+            }
         }
     }
 }
