@@ -4,17 +4,19 @@ using Fahrtenbuch.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using ErrorOr;
 using Microsoft.Extensions.Logging;
+using Fahrtenbuch.Infrastructure.Persistence.Base;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideRepository> logger) : IRideRepository
+public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideRepository> logger)
+: BaseRepository<Ride, RideId>(logger, dbContext), IRideRepository
 {
     public async Task<ErrorOr<Success>> Create(Ride ride, CancellationToken cancellationToken = default)
     {
         try
         {
-            dbContext.Rides.Add(ride);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            DbContext.Rides.Add(ride);
+            await DbContext.SaveChangesAsync(cancellationToken);
             return Result.Success;
         }
         catch (OperationCanceledException)
@@ -33,7 +35,7 @@ public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideReposito
     {
         try
         {
-            var dbResult = await dbContext.Rides.AnyAsync(r => r.Id.Value == rideId.Value, cancellationToken);
+            var dbResult = await DbContext.Rides.AnyAsync(r => r.Id.Value == rideId.Value, cancellationToken);
             return dbResult;
         }
         catch (OperationCanceledException)
@@ -52,7 +54,7 @@ public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideReposito
     {
         try
         {
-            var dbResult = await dbContext.Rides.ToListAsync(cancellationToken);
+            var dbResult = await DbContext.Rides.ToListAsync(cancellationToken);
             return dbResult;
         }
         catch (OperationCanceledException)
@@ -71,7 +73,7 @@ public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideReposito
     {
         try
         {
-            var dbResult = await dbContext.Rides.FirstOrDefaultAsync(r => r.Id.Value == rideId.Value, cancellationToken);
+            var dbResult = await DbContext.Rides.FirstOrDefaultAsync(r => r.Id.Value == rideId.Value, cancellationToken);
             return dbResult;
         }
         catch (OperationCanceledException)
@@ -90,14 +92,14 @@ public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideReposito
     {
         try
         {
-            var entry = dbContext.Entry(ride);
+            var entry = DbContext.Entry(ride);
             if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
             {
-                dbContext.Rides.Attach(ride);
+                DbContext.Rides.Attach(ride);
                 entry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
-            await dbContext.SaveChangesAsync(cancellationToken);
+            await DbContext.SaveChangesAsync(cancellationToken);
             return Result.Success;
         }
         catch (OperationCanceledException)

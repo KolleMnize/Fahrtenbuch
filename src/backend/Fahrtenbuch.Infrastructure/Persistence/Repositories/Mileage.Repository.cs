@@ -2,19 +2,21 @@ using ErrorOr;
 using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
 using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Infrastructure.Persistence.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRepository> logger) : IMileageRepository
+public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRepository> logger)
+: BaseRepository<Mileage, MileageId>(logger, dbContext), IMileageRepository
 {
     public async Task<ErrorOr<Success>> Create(Mileage mileage, CancellationToken ct = default)
     {
         try
         {
-            dbContext.Mileages.Add(mileage);
-            await dbContext.SaveChangesAsync(ct);
+            DbContext.Mileages.Add(mileage);
+            await DbContext.SaveChangesAsync(ct);
             return Result.Success;
         }
         catch (OperationCanceledException ex)
@@ -34,7 +36,7 @@ public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRe
 
         try
         {
-            var dbResult = await dbContext.Mileages.ToListAsync(ct);
+            var dbResult = await DbContext.Mileages.ToListAsync(ct);
             return dbResult;
         }
         catch (OperationCanceledException ex)
@@ -53,7 +55,7 @@ public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRe
     {
         try
         {
-            var mileage = await dbContext.Mileages
+            var mileage = await DbContext.Mileages
                 .Where(m => m.CarId.Value == carId.Value && m.Date > date)
                 .OrderBy(m => m.Date)
                 .FirstOrDefaultAsync(ct);
@@ -76,7 +78,7 @@ public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRe
     {
         try
         {
-            var mileage = await dbContext.Mileages
+            var mileage = await DbContext.Mileages
                 .Where(m => m.CarId.Value == carId.Value && m.Date < date)
                 .OrderByDescending(m => m.Date)
                 .FirstOrDefaultAsync(ct);
@@ -99,7 +101,7 @@ public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRe
     {
         try
         {
-            return await dbContext.Mileages.AnyAsync(m => m.Id.Value == mileageId.Value, ct);
+            return await DbContext.Mileages.AnyAsync(m => m.Id.Value == mileageId.Value, ct);
         }
         catch (OperationCanceledException ex)
         {
@@ -117,7 +119,7 @@ public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRe
     {
         try
         {
-            return await dbContext.Mileages.FirstOrDefaultAsync(m => m.Id.Value == mileageId.Value, ct);
+            return await DbContext.Mileages.FirstOrDefaultAsync(m => m.Id.Value == mileageId.Value, ct);
         }
         catch (OperationCanceledException ex)
         {

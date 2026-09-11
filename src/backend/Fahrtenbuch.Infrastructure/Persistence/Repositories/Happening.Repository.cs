@@ -1,19 +1,22 @@
 using ErrorOr;
 using Fahrtenbuch.Domain.Aggregates;
 using Fahrtenbuch.Domain.Interfaces.Repositories;
+using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Infrastructure.Persistence.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories
 {
-    public class HappeningRepository(FahrtenbuchDbContext dbContext, ILogger<HappeningRepository> logger) : IHappeningRepository
+    public class HappeningRepository(FahrtenbuchDbContext dbContext, ILogger<HappeningRepository> logger)
+    : BaseRepository<Happening, HappeningId>(logger, dbContext), IHappeningRepository
     {
         public async Task<ErrorOr<Success>> Create(Happening happening, CancellationToken cancellationToken = default)
         {
             try
             {
-                var dbResult = dbContext.Happenings.Add(happening);
-                await dbContext.SaveChangesAsync(cancellationToken);
+                var dbResult = DbContext.Happenings.Add(happening);
+                await DbContext.SaveChangesAsync(cancellationToken);
                 return Result.Success;
             }
             catch (OperationCanceledException)
@@ -32,7 +35,7 @@ namespace Fahrtenbuch.Infrastructure.Persistence.Repositories
         {
             try
             {
-                var dbResult = await dbContext.Happenings.ToListAsync(cancellationToken);
+                var dbResult = await DbContext.Happenings.ToListAsync(cancellationToken);
                 return dbResult;
             }
             catch (OperationCanceledException)
