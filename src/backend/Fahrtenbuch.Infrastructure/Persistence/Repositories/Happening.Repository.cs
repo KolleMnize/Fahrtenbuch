@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories
 {
-    public class HappeningRepository(FahrtenbuchDbContext dbContext, ILogger<HappeningRepository> logger)
+    internal class HappeningRepository(FahrtenbuchDbContext dbContext, ILogger<HappeningRepository> logger)
     : BaseRepository<Happening, HappeningId>(logger, dbContext), IHappeningRepository
     {
         public async Task<ErrorOr<Success>> Create(Happening happening, CancellationToken cancellationToken = default)

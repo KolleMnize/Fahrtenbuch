@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Base;
 
-public abstract class BaseRepository<TEntity, TId>(ILogger logger, FahrtenbuchDbContext dbContext)
+internal abstract class BaseRepository<TEntity, TId>(ILogger logger, FahrtenbuchDbContext dbContext)
     where TEntity : class
 {
-    protected FahrtenbuchDbContext DbContext { get; } = dbContext;
+    internal FahrtenbuchDbContext DbContext { get; } = dbContext;
     public async Task<ErrorOr<Deleted>> Delete(TId id, CancellationToken ct = default)
     {
         try

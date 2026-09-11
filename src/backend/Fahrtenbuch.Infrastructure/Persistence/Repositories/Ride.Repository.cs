@@ -8,7 +8,7 @@ using Fahrtenbuch.Infrastructure.Persistence.Base;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideRepository> logger)
+internal class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideRepository> logger)
 : BaseRepository<Ride, RideId>(logger, dbContext), IRideRepository
 {
     public async Task<ErrorOr<Success>> Create(Ride ride, CancellationToken cancellationToken = default)

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class CarRepository(FahrtenbuchDbContext dbContext, ILogger<CarRepository> logger)
+internal class CarRepository(FahrtenbuchDbContext dbContext, ILogger<CarRepository> logger)
 : BaseRepository<Car, CarId>(logger, dbContext), ICarRepository
 {
     public async Task<ErrorOr<bool>> Exists(CarId carId, CancellationToken cancellationToken = default)

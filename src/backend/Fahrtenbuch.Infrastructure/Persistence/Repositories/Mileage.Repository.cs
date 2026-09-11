@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
 
-public class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRepository> logger)
+internal class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRepository> logger)
 : BaseRepository<Mileage, MileageId>(logger, dbContext), IMileageRepository
 {
     public async Task<ErrorOr<Success>> Create(Mileage mileage, CancellationToken ct = default)
