@@ -23,5 +23,10 @@ public class HappeningConfiguration : IEntityTypeConfiguration<Happening>
             .HasConversion(
                 id => id!.Value,
                 value => MileageId.Create(value).Value!);
+        builder
+            .HasOne<Mileage>()
+            .WithMany()
+            .HasForeignKey(m => m.MileageId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

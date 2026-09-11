@@ -30,5 +30,15 @@ public class RideConfiguration : IEntityTypeConfiguration<Ride>
             .HasConversion(
                 id => id!.Value,
                 value => MileageId.Create(value!).Value);
+        builder
+            .HasOne<Mileage>()
+            .WithMany()
+            .HasForeignKey(m => m.StartMileageId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder
+            .HasOne<Mileage>()
+            .WithMany()
+            .HasForeignKey(m => m.EndMileageId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -23,5 +23,10 @@ public class MileageConfiguration : IEntityTypeConfiguration<Mileage>
                 .HasConversion(
                     id => id.Value,
                     value => CarId.Create(value).Value);
+        builder
+            .HasOne<Car>()
+            .WithMany()
+            .HasForeignKey(m => m.CarId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
