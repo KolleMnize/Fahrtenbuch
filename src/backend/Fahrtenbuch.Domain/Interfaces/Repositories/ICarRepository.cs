@@ -7,7 +7,7 @@ namespace Fahrtenbuch.Domain.Interfaces.Repositories;
 /// <summary>
 /// Repository interface for managing car entities.
 /// </summary>
-public interface ICarRepository
+public interface ICarRepository : IBaseRepository<Car, CarId>
 {
     /// <summary>
     /// Checks if a car with the specified ID exists in the repository.

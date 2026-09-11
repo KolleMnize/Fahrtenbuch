@@ -7,7 +7,7 @@ namespace Fahrtenbuch.Domain.Interfaces.Repositories;
 /// <summary>
 /// Repository interface for managing ride entities.
 /// </summary>
-public interface IRideRepository
+public interface IRideRepository : IBaseRepository<Ride, RideId>
 {
     /// <summary>
     /// Creates a new ride entity in the repository.

@@ -1,12 +1,13 @@
 using ErrorOr;
 using Fahrtenbuch.Domain.Aggregates;
+using Fahrtenbuch.Domain.ValueObjects;
 
 namespace Fahrtenbuch.Domain.Interfaces.Repositories;
 
 /// <summary>
 /// Repository interface for managing happening entities
 /// </summary>
-public interface IHappeningRepository
+public interface IHappeningRepository : IBaseRepository<Happening, HappeningId>
 {
     /// <summary>
     /// Creates a new happening entity.

@@ -6,7 +6,7 @@ namespace Fahrtenbuch.Domain.Interfaces.Repositories;
 /// <summary>
 /// Repository interface for managing mileage records.
 /// </summary>
-public interface IMileageRepository
+public interface IMileageRepository : IBaseRepository<Mileage, MileageId>
 {
     /// <summary>
     /// Creates a new mileage record in the repository.

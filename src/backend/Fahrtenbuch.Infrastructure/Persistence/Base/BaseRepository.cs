@@ -1,10 +1,12 @@
 using Microsoft.Extensions.Logging;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
+using Fahrtenbuch.Domain.Interfaces.Repositories;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Base;
 
 internal abstract class BaseRepository<TEntity, TId>(ILogger logger, FahrtenbuchDbContext dbContext)
+    : IBaseRepository<TEntity, TId>
     where TEntity : class
 {
     internal FahrtenbuchDbContext DbContext { get; } = dbContext;
