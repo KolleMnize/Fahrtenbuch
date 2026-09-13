@@ -49,5 +49,42 @@ namespace Fahrtenbuch.Infrastructure.Persistence.Repositories
                 return Error.Unexpected("Happening.UnexpectedError", "An error occurred while retrieving all happenings");
             }
         }
+
+        public async Task<ErrorOr<bool>> ExistsForMileage(MileageId mileageId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await DbContext.Happenings.AnyAsync(h => h.MileageId == mileageId, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                logger.LogDebug("Operation was canceled while checking if happenings exist for mileage");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while checking if happenings exist for mileage");
+                return Error.Unexpected("Happening.UnexpectedError", "An error occurred while checking if happenings exist for mileage");
+            }
+        }
+
+        public async Task<ErrorOr<IReadOnlyList<Happening>>> GetAllByMileage(MileageId mileageId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var dbResult = await DbContext.Happenings.Where(h => h.MileageId == mileageId).ToListAsync(cancellationToken);
+                return dbResult;
+            }
+            catch (OperationCanceledException)
+            {
+                logger.LogDebug("Operation was canceled while retrieving all happenings for mileage");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while retrieving all happenings for mileage");
+                return Error.Unexpected("Happening.UnexpectedError", "An error occurred while retrieving all happenings for mileage");
+            }
+        }
     }
 }
