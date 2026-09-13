@@ -155,7 +155,7 @@ internal class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<Mileage
     {
         try
         {
-            return await DbContext.Mileages.Where(m => m.CarId.Value == carId.Value).ToListAsync(cancellationToken);
+            return await DbContext.Mileages.Where(m => m.CarId == carId).ToListAsync(cancellationToken);
         }
         catch (OperationCanceledException ex)
         {
