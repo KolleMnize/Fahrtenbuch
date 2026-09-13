@@ -1,7 +1,7 @@
 using ErrorOr;
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.ValueObjects;
-namespace Fahrtenbuch.Domain.Interfaces.Repositories;
+using Fahrtenbuch.Domain.Cars;
+using Fahrtenbuch.Domain.SharedKernel;
+namespace Fahrtenbuch.Domain.Mileages;
 
 /// <summary>
 /// Repository interface for managing mileage records.

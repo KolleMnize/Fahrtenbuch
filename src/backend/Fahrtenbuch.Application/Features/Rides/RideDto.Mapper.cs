@@ -1,4 +1,4 @@
-using Fahrtenbuch.Domain.Aggregates;
+using Fahrtenbuch.Domain.Rides;
 
 namespace Fahrtenbuch.Application.Features.Rides;
 

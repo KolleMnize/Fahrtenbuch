@@ -1,4 +1,4 @@
-using Fahrtenbuch.Domain.Aggregates;
+using Fahrtenbuch.Domain.Mileages;
 
 namespace Fahrtenbuch.Application.Features.Mileages;
 

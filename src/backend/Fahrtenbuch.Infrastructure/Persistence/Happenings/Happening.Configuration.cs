@@ -1,9 +1,9 @@
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Happenings;
+using Fahrtenbuch.Domain.Mileages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Fahrtenbuch.Infrastructure.Persistence.Configurations;
+namespace Fahrtenbuch.Infrastructure.Persistence.Happenings;
 
 public class HappeningConfiguration : IEntityTypeConfiguration<Happening>
 {

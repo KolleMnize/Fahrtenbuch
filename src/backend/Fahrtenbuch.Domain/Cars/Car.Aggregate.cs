@@ -1,8 +1,7 @@
 using ErrorOr;
 using Fahrtenbuch.Domain.SharedKernel;
-using Fahrtenbuch.Domain.ValueObjects;
 
-namespace Fahrtenbuch.Domain.Aggregates;
+namespace Fahrtenbuch.Domain.Cars;
 
 public class Car : Aggregate
 {

@@ -1,6 +1,6 @@
 using ErrorOr;
 
-namespace Fahrtenbuch.Domain.ValueObjects;
+namespace Fahrtenbuch.Domain.Happenings;
 
 public class HappeningId : IEquatable<HappeningId>
 {

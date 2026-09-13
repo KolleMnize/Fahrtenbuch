@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
+using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Infrastructure.Persistence.Base;
 

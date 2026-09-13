@@ -1,8 +1,8 @@
 using ErrorOr;
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Mileages;
+using Fahrtenbuch.Domain.SharedKernel;
 
-namespace Fahrtenbuch.Domain.Interfaces.Repositories;
+namespace Fahrtenbuch.Domain.Happenings;
 
 /// <summary>
 /// Repository interface for managing happening entities

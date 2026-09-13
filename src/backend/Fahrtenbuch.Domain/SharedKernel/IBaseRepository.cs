@@ -1,6 +1,6 @@
 using ErrorOr;
 
-namespace Fahrtenbuch.Domain.Interfaces.Repositories;
+namespace Fahrtenbuch.Domain.SharedKernel;
 
 /// <summary>
 /// Represents a generic base repository interface for CRUD operations.

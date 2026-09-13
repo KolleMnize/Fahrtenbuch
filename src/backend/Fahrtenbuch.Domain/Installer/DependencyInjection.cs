@@ -1,4 +1,5 @@
-using Fahrtenbuch.Domain.Services;
+using Fahrtenbuch.Domain.Mileages;
+using Fahrtenbuch.Domain.Rides;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fahrtenbuch.Domain.Installer;

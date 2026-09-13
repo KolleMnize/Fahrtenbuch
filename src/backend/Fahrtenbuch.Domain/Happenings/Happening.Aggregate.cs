@@ -1,8 +1,8 @@
 using ErrorOr;
+using Fahrtenbuch.Domain.Mileages;
 using Fahrtenbuch.Domain.SharedKernel;
-using Fahrtenbuch.Domain.ValueObjects;
 
-namespace Fahrtenbuch.Domain.Aggregates;
+namespace Fahrtenbuch.Domain.Happenings;
 
 public class Happening : Aggregate
 {

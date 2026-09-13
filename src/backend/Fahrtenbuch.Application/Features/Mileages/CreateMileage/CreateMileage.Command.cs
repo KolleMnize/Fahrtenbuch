@@ -1,4 +1,3 @@
-using Fahrtenbuch.Application.Features.Mileages;
 using Fahrtenbuch.Application.Interfaces;
 
 namespace Fahrtenbuch.Application.Features.Mileages.CreateMileage;

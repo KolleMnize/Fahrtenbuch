@@ -1,9 +1,8 @@
 using ErrorOr;
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Mileages;
 
-namespace Fahrtenbuch.Domain.Services;
+
+namespace Fahrtenbuch.Domain.Rides;
 
 public class RideDomainService(IMileageRepository mileageRepository)
 {

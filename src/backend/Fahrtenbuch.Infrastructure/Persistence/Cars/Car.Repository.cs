@@ -1,12 +1,10 @@
 using ErrorOr;
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Cars;
 using Fahrtenbuch.Infrastructure.Persistence.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
+namespace Fahrtenbuch.Infrastructure.Persistence.Cars;
 
 internal class CarRepository(FahrtenbuchDbContext dbContext, ILogger<CarRepository> logger)
 : BaseRepository<Car, CarId>(logger, dbContext), ICarRepository

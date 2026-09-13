@@ -1,9 +1,9 @@
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Cars;
+using Fahrtenbuch.Domain.Mileages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Fahrtenbuch.Infrastructure.Persistence.Configurations;
+namespace Fahrtenbuch.Infrastructure.Persistence.Mileages;
 
 public class MileageConfiguration : IEntityTypeConfiguration<Mileage>
 {

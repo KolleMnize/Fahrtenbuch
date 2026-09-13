@@ -1,8 +1,8 @@
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.Services;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Cars;
+using Fahrtenbuch.Domain.Happenings;
+using Fahrtenbuch.Domain.Mileages;
+using Fahrtenbuch.Domain.Rides;
 using Fahrtenbuch.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Fahrtenbuch.Infrastructure.Services;
 

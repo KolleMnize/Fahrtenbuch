@@ -1,12 +1,11 @@
 using ErrorOr;
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Cars;
+using Fahrtenbuch.Domain.Mileages;
 using Fahrtenbuch.Infrastructure.Persistence.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fahrtenbuch.Infrastructure.Persistence.Repositories;
+namespace Fahrtenbuch.Infrastructure.Persistence.Mileages;
 
 internal class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<MileageRepository> logger)
 : BaseRepository<Mileage, MileageId>(logger, dbContext), IMileageRepository

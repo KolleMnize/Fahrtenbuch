@@ -1,9 +1,10 @@
+using Fahrtenbuch.Domain.Mileages;
+using Fahrtenbuch.Domain.Rides;
 using Microsoft.EntityFrameworkCore;
-using Fahrtenbuch.Domain.Aggregates;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Fahrtenbuch.Domain.ValueObjects;
 
-namespace Fahrtenbuch.Infrastructure.Persistence.Configurations;
+
+namespace Fahrtenbuch.Infrastructure.Persistence.Rides;
 
 public class RideConfiguration : IEntityTypeConfiguration<Ride>
 {

@@ -1,9 +1,8 @@
 
 using ErrorOr;
 using Fahrtenbuch.Application.Interfaces;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
-using Fahrtenbuch.Domain.Services;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Cars;
+using Fahrtenbuch.Domain.Mileages;
 
 namespace Fahrtenbuch.Application.Features.Mileages.CreateMileage;
 
