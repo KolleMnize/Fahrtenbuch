@@ -132,4 +132,40 @@ internal class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<Mileage
             return Error.Unexpected("Mileage.UnexpectedError", "An unexpected error occurred while retrieving mileage by ID.");
         }
     }
+
+    public async Task<ErrorOr<bool>> ExistsForCar(CarId carId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await DbContext.Mileages.AnyAsync(m => m.CarId.Value == carId.Value, cancellationToken);
+        }
+        catch (OperationCanceledException ex)
+        {
+            logger.LogError(ex, "Operation was canceled while checking if mileage exists for car.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while checking if mileage exists for car.");
+            return Error.Unexpected("Mileage.UnexpectedError", "An unexpected error occurred while checking if mileage exists for car.");
+        }
+    }
+
+    public async Task<ErrorOr<IReadOnlyList<Mileage>>> GetAllByCar(CarId carId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await DbContext.Mileages.Where(m => m.CarId.Value == carId.Value).ToListAsync(cancellationToken);
+        }
+        catch (OperationCanceledException ex)
+        {
+            logger.LogError(ex, "Operation was canceled while retrieving all mileage records for car.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving all mileage records for car.");
+            return Error.Unexpected("Mileage.UnexpectedError", "An unexpected error occurred while retrieving all mileage records for car.");
+        }
+    }
 }

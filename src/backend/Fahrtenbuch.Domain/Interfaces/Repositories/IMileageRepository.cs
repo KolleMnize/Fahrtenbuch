@@ -30,6 +30,7 @@ public interface IMileageRepository : IBaseRepository<Mileage, MileageId>
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
     Task<ErrorOr<IReadOnlyList<Mileage>>> GetAll(CancellationToken cancellationToken);
+
     /// <summary>
     /// Retrieves a mileage record by its ID.
     /// </summary>
@@ -41,6 +42,7 @@ public interface IMileageRepository : IBaseRepository<Mileage, MileageId>
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
     Task<ErrorOr<Mileage?>> GetById(MileageId mileageId, CancellationToken cancellationToken);
+
     /// <summary>
     /// Retrieves the following mileage record from a specific date for a given car.
     /// </summary>
@@ -53,6 +55,7 @@ public interface IMileageRepository : IBaseRepository<Mileage, MileageId>
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
     Task<ErrorOr<Mileage?>> GetFollowingMileageFromDate(CarId carId, DateTime date, CancellationToken cancellationToken);
+
     /// <summary>
     /// Retrieves the previous mileage record from a specific date for a given car.
     /// </summary>
@@ -65,6 +68,7 @@ public interface IMileageRepository : IBaseRepository<Mileage, MileageId>
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
     Task<ErrorOr<Mileage?>> GetPreviousMileageFromDate(CarId carId, DateTime date, CancellationToken cancellationToken);
+
     /// <summary>
     /// Checks if a mileage record exists by its ID.
     /// </summary>
@@ -76,4 +80,28 @@ public interface IMileageRepository : IBaseRepository<Mileage, MileageId>
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
     Task<ErrorOr<bool>> Exists(MileageId mileageId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Checks if there are any mileage records for a specific car.
+    /// </summary>
+    /// <param name="carId">The ID of the car.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>
+    /// True if there are mileage records for the car, false otherwise, wrapped in an ErrorOr result.
+    /// Possible error types: <see cref="ErrorType.Unexpected"/>.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
+    Task<ErrorOr<bool>> ExistsForCar(CarId carId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retrieves all mileage records for a specific car.
+    /// </summary>
+    /// <param name="carId">The ID of the car.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>
+    /// A list of all mileage records for the car wrapped in an ErrorOr result.
+    /// Possible error types: <see cref="ErrorType.Unexpected"/>.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
+    Task<ErrorOr<IReadOnlyList<Mileage>>> GetAllByCar(CarId carId, CancellationToken cancellationToken);
 }
