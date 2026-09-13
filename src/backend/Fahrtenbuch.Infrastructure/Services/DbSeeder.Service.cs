@@ -19,6 +19,7 @@ internal class DbSeederService(
 
         MileageId Mileage1Id = MileageId.Create(Guid.Parse("32473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
         MileageId Mileage2Id = MileageId.Create(Guid.Parse("42473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
+        MileageId Mileage3Id = MileageId.Create(Guid.Parse("62473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
 
         HappeningId Happening1Id = HappeningId.Create(Guid.Parse("52473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
         HappeningId Happening2Id = HappeningId.Create(Guid.Parse("62473fc2-9ee5-4670-834c-7c8401ec2df1")).Value;
@@ -51,11 +52,20 @@ internal class DbSeederService(
 
         Mileage mileage2 = mileage2CreateResult.Value;
 
+        var mileage3CreateResult = await mileageDomainService.CreateMileage(
+                    Mileage3Id,
+                    Car1Id,
+                    300,
+                    DateTime.Parse("2024-01-05T00:00:00Z"));
+
+        Mileage mileage3 = mileage3CreateResult.Value;
+
         if (!dbContext.Mileages.Any())
         {
             dbContext.Mileages.AddRange(
                 mileage1,
-                mileage2
+                mileage2,
+                mileage3
             );
             dbContext.SaveChanges();
         }
@@ -98,8 +108,8 @@ internal class DbSeederService(
         }
 
         await rideDomainService.EndRide(
-            ride1,
-            mileage2.Id);
+                 ride1,
+                 mileage3.Id);
 
         dbContext.SaveChanges();
     }
