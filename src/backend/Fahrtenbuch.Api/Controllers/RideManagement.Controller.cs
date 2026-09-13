@@ -1,5 +1,6 @@
 using Fahrtenbuch.Api.Extensions;
 using Fahrtenbuch.Application.Features.Rides.CreateRide;
+using Fahrtenbuch.Application.Features.Rides.DeleteRide;
 using Fahrtenbuch.Application.Features.Rides.EndRide;
 using Fahrtenbuch.Application.Features.Rides.GetRides;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace Fahrtenbuch.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RideManagementController(CreateRideHandler createRideCommandHandler, GetRidesHandler getRidesHandler, EndRideHandler endRideHandler) : ControllerBase
+public class RideManagementController(CreateRideHandler createRideCommandHandler, GetRidesHandler getRidesHandler, EndRideHandler endRideHandler, DeleteRideHandler deleteRideHandler) : ControllerBase
 {
     [HttpPost("CreateRide", Name = "CreateRide")]
     public async Task<IActionResult> CreateRide(CreateRideCommand command)
@@ -28,6 +29,13 @@ public class RideManagementController(CreateRideHandler createRideCommandHandler
     public async Task<IActionResult> GetRides([FromQuery] GetRidesQuery query)
     {
         var result = await getRidesHandler.Handle(query);
+        return result.ToProblemDetails(this);
+    }
+
+    [HttpDelete("DeleteRide", Name = "DeleteRide")]
+    public async Task<IActionResult> DeleteRide(DeleteRideCommand command)
+    {
+        var result = await deleteRideHandler.Handle(command);
         return result.ToProblemDetails(this);
     }
 }
