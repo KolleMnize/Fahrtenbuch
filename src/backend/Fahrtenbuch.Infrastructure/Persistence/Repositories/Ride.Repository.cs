@@ -113,4 +113,44 @@ internal class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideReposi
             return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while updating a ride.");
         }
     }
+
+    public async Task<ErrorOr<bool>> ExistsForMileage(MileageId mileageId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            bool startMileageExists = await DbContext.Rides.AnyAsync(r => r.StartMileageId == mileageId, cancellationToken);
+            bool endMileageExists = await DbContext.Rides.AnyAsync(r => r.EndMileageId == mileageId, cancellationToken);
+            return startMileageExists || endMileageExists;
+        }
+        catch (OperationCanceledException ex)
+        {
+            logger.LogError(ex, "Operation was canceled while checking if any rides exist for the specified mileage.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while checking if any rides exist for the specified mileage.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while checking if any rides exist for the specified mileage.");
+        }
+    }
+
+    public async Task<ErrorOr<IReadOnlyList<Ride>>> GetAllByMileage(MileageId mileageId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await DbContext.Rides
+                .Where(r => r.StartMileageId == mileageId || r.EndMileageId == mileageId)
+                .ToListAsync(cancellationToken);
+        }
+        catch (OperationCanceledException ex)
+        {
+            logger.LogError(ex, "Operation was canceled while retrieving all rides for the specified mileage.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving all rides for the specified mileage.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while retrieving all rides for the specified mileage.");
+        }
+    }
 }

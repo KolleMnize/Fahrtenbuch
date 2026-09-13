@@ -67,4 +67,28 @@ public interface IRideRepository : IBaseRepository<Ride, RideId>
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
     Task<ErrorOr<bool>> Exists(RideId rideId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Checks if any ride entities exist for a specific mileage ID in the repository.
+    /// </summary>
+    /// <param name="mileageId">The unique identifier of the mileage entity.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>
+    /// A boolean value wrapped in an ErrorOr result indicating whether any rides exist for the specified mileage.
+    /// Possible error types: <see cref="ErrorType.Unexpected"/>.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
+    Task<ErrorOr<bool>> ExistsForMileage(MileageId mileageId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retrieves all ride entities for a specific mileage ID from the repository.
+    /// </summary>
+    /// <param name="mileageId">The unique identifier of the mileage entity.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>
+    /// A list of ride entities wrapped in an ErrorOr result.
+    /// Possible error types: <see cref="ErrorType.Unexpected"/>.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
+    Task<ErrorOr<IReadOnlyList<Ride>>> GetAllByMileage(MileageId mileageId, CancellationToken cancellationToken);
 }
