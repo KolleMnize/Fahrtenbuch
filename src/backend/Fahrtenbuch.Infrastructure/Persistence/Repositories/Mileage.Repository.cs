@@ -133,7 +133,7 @@ internal class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<Mileage
         }
     }
 
-    public async Task<ErrorOr<bool>> ExistsForCar(CarId carId, CancellationToken cancellationToken)
+    public async Task<ErrorOr<bool>> ExistsForCar(CarId carId, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -151,7 +151,7 @@ internal class MileageRepository(FahrtenbuchDbContext dbContext, ILogger<Mileage
         }
     }
 
-    public async Task<ErrorOr<IReadOnlyList<Mileage>>> GetAllByCar(CarId carId, CancellationToken cancellationToken)
+    public async Task<ErrorOr<IReadOnlyList<Mileage>>> GetAllByCar(CarId carId, CancellationToken cancellationToken = default)
     {
         try
         {
