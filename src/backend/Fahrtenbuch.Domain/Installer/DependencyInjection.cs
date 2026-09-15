@@ -1,3 +1,4 @@
+using Fahrtenbuch.Domain.Cars;
 using Fahrtenbuch.Domain.Happenings;
 using Fahrtenbuch.Domain.Mileages;
 using Fahrtenbuch.Domain.Rides;
@@ -14,5 +15,6 @@ public static class DependencyInjection
         services.AddScoped<RideDomainService>();
         services.AddScoped<IRideDeletionService, RideDeletionService>();
         services.AddScoped<IHappeningDeletionService, HappeningDeletionService>();
+        services.AddScoped<ICarDeletionService, CarDeletionService>();
     }
 }

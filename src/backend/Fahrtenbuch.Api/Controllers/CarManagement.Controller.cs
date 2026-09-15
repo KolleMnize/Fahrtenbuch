@@ -1,5 +1,6 @@
 using Fahrtenbuch.Api.Extensions;
 using Fahrtenbuch.Application.Features.Cars.CreateCar;
+using Fahrtenbuch.Application.Features.Cars.DeleteCar;
 using Fahrtenbuch.Application.Features.Cars.GetCars;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace Fahrtenbuch.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CarManagementController(CreateCarHandler createCarHandler, GetCarsHandler getCarsHandler) : ControllerBase
+public class CarManagementController(CreateCarHandler createCarHandler, GetCarsHandler getCarsHandler, DeleteCarHandler deleteCarHandler) : ControllerBase
 {
     [HttpPost("CreateCar", Name = "CreateCar")]
     public async Task<IActionResult> CreateCar(CreateCarCommand command)
@@ -20,6 +21,13 @@ public class CarManagementController(CreateCarHandler createCarHandler, GetCarsH
     public async Task<IActionResult> GetCars([FromQuery] GetCarsQuery query)
     {
         var result = await getCarsHandler.Handle(query);
+        return result.ToProblemDetails(this);
+    }
+
+    [HttpDelete("DeleteCar", Name = "DeleteCar")]
+    public async Task<IActionResult> DeleteCar(DeleteCarCommand command)
+    {
+        var result = await deleteCarHandler.Handle(command);
         return result.ToProblemDetails(this);
     }
 }
