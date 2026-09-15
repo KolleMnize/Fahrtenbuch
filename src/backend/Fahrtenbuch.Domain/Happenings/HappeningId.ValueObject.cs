@@ -1,15 +1,12 @@
 using ErrorOr;
+using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Domain.Happenings;
 
-public class HappeningId : IEquatable<HappeningId>
+public class HappeningId : AggregateId
 {
-    public Guid Value { get; init; }
-
-    private HappeningId(Guid value)
-    {
-        Value = value;
-    }
+    private HappeningId(Guid value) : base(value)
+    { }
 
     public static ErrorOr<HappeningId> Create(Guid value)
     {
@@ -20,12 +17,4 @@ public class HappeningId : IEquatable<HappeningId>
 
         return new HappeningId(value);
     }
-    public bool Equals(HappeningId? other)
-    {
-        if (other is null) return false;
-        return Value == other.Value;
-    }
-
-    public override bool Equals(object? obj) => Equals(obj as HappeningId);
-    public override int GetHashCode() => Value.GetHashCode();
 }

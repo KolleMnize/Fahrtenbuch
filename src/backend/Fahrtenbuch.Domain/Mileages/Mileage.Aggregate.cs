@@ -4,9 +4,8 @@ using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Domain.Mileages;
 
-public class Mileage : Aggregate
+public class Mileage : Aggregate<MileageId>
 {
-    public required MileageId Id { get; init; }
     public required CarId CarId { get; init; }
     public required decimal Value { get; init; }
     public required DateTime Date { get; init; }

@@ -1,14 +1,12 @@
 using ErrorOr;
+using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Domain.Cars;
 
-public class CarId : IEquatable<CarId>
+public class CarId : AggregateId
 {
-    public Guid Value { get; init; }
-
-    private CarId(Guid value)
+    private CarId(Guid value) : base(value)
     {
-        Value = value;
     }
 
     public static ErrorOr<CarId> Create(Guid value)
@@ -20,12 +18,5 @@ public class CarId : IEquatable<CarId>
 
         return new CarId(value);
     }
-    public bool Equals(CarId? other)
-    {
-        if (other is null) return false;
-        return Value == other.Value;
-    }
 
-    public override bool Equals(object? obj) => Equals(obj as CarId);
-    public override int GetHashCode() => Value.GetHashCode();
 }

@@ -3,19 +3,13 @@ using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Domain.Cars;
 
-public class Car : Aggregate
+public class Car : Aggregate<CarId>
 {
-    public required CarId Id { get; init; }
     public required string Name { get; init; }
 
     private Car()
     {
         // Required for EF Core
-    }
-    private Car(CarId id, string name)
-    {
-        Id = id;
-        Name = name;
     }
 
     public static ErrorOr<Car> Create(CarId id, string name)
@@ -28,7 +22,7 @@ public class Car : Aggregate
             );
         }
 
-        return new Car
+        return new Car()
         {
             Id = id,
             Name = name

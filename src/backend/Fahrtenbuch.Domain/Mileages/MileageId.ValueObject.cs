@@ -1,15 +1,12 @@
 using ErrorOr;
+using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Domain.Mileages;
 
-public class MileageId : IEquatable<MileageId>
+public class MileageId : AggregateId
 {
-    public Guid Value { get; init; }
-
-    private MileageId(Guid value)
-    {
-        Value = value;
-    }
+    private MileageId(Guid value) : base(value)
+    { }
 
     public static ErrorOr<MileageId> Create(Guid value)
     {
@@ -20,13 +17,4 @@ public class MileageId : IEquatable<MileageId>
 
         return new MileageId(value);
     }
-
-    public bool Equals(MileageId? other)
-    {
-        if (other is null) return false;
-        return Value == other.Value;
-    }
-
-    public override bool Equals(object? obj) => Equals(obj as MileageId);
-    public override int GetHashCode() => Value.GetHashCode();
 }

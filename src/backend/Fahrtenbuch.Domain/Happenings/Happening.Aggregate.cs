@@ -4,9 +4,8 @@ using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Domain.Happenings;
 
-public class Happening : Aggregate
+public class Happening : Aggregate<HappeningId>
 {
-    public required HappeningId Id { get; init; }
     public string Description { get; private set; } = string.Empty;
     public MileageId? MileageId { get; private set; }
 

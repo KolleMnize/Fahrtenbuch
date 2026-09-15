@@ -4,9 +4,8 @@ using Fahrtenbuch.Domain.SharedKernel;
 
 namespace Fahrtenbuch.Domain.Rides;
 
-public class Ride : Aggregate
+public class Ride : Aggregate<RideId>
 {
-    public required RideId Id { get; init; }
     public required string Description { get; init; }
     public required MileageId StartMileageId { get; init; }
     public MileageId? EndMileageId { get; private set; }
