@@ -16,5 +16,6 @@ public static class DependencyInjection
         services.AddScoped<IRideDeletionService, RideDeletionService>();
         services.AddScoped<IHappeningDeletionService, HappeningDeletionService>();
         services.AddScoped<ICarDeletionService, CarDeletionService>();
+        services.AddScoped<IMileageDeletionService, MileageDeletionService>();
     }
 }

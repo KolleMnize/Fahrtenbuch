@@ -1,5 +1,6 @@
 using Fahrtenbuch.Api.Extensions;
 using Fahrtenbuch.Application.Features.Mileages.CreateMileage;
+using Fahrtenbuch.Application.Features.Mileages.DeleteMilegae;
 using Fahrtenbuch.Application.Features.Mileages.GetMileages;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,8 @@ namespace Fahrtenbuch.Api.Controllers;
 [Route("[controller]")]
 public class MileageManagementController(
     CreateMileageHandler createMileageHandler,
-    GetMileagesHandler getMileagesHandler) : ControllerBase
+    GetMileagesHandler getMileagesHandler,
+    DeleteMileageHandler deleteMileageHandler) : ControllerBase
 {
     [HttpPost("CreateMileage", Name = "CreateMileage")]
     public async Task<IActionResult> CreateMileage(CreateMileageCommand command)
@@ -22,6 +24,13 @@ public class MileageManagementController(
     public async Task<IActionResult> GetMileage([FromQuery] GetMileagesQuery query)
     {
         var result = await getMileagesHandler.Handle(query);
+        return result.ToProblemDetails(this);
+    }
+
+    [HttpDelete("DeleteMileage", Name = "DeleteMileage")]
+    public async Task<IActionResult> DeleteMileage(DeleteMileageCommand command)
+    {
+        var result = await deleteMileageHandler.Handle(command);
         return result.ToProblemDetails(this);
     }
 }
