@@ -14,7 +14,7 @@ public class MileageManagementController(
     DeleteMileageHandler deleteMileageHandler) : ControllerBase
 {
     [HttpPost("CreateMileage", Name = "CreateMileage")]
-    public async Task<IActionResult> CreateMileage(CreateMileageCommand command)
+    public async Task<IActionResult> CreateMileage([FromQuery] CreateMileageCommand command)
     {
         var result = await createMileageHandler.Handle(command);
         return result.ToProblemDetails(this);
@@ -28,7 +28,7 @@ public class MileageManagementController(
     }
 
     [HttpDelete("DeleteMileage", Name = "DeleteMileage")]
-    public async Task<IActionResult> DeleteMileage(DeleteMileageCommand command)
+    public async Task<IActionResult> DeleteMileage([FromQuery] DeleteMileageCommand command)
     {
         var result = await deleteMileageHandler.Handle(command);
         return result.ToProblemDetails(this);

@@ -11,7 +11,7 @@ namespace Fahrtenbuch.Api.Controllers;
 public class HappeningManagementController(CreateHappeningHandler createHappeningHandler, GetHappeningsHandler getHappeningsHandler, DeleteHappeningHandler deleteHappeningHandler) : ControllerBase
 {
     [HttpPost("CreateHappening", Name = "CreateHappening")]
-    public async Task<IActionResult> CreateHappening(CreateHappeningCommand command)
+    public async Task<IActionResult> CreateHappening([FromQuery] CreateHappeningCommand command)
     {
         var result = await createHappeningHandler.Handle(command);
         return result.ToProblemDetails(this);

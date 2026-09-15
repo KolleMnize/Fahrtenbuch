@@ -11,7 +11,7 @@ namespace Fahrtenbuch.Api.Controllers;
 public class CarManagementController(CreateCarHandler createCarHandler, GetCarsHandler getCarsHandler, DeleteCarHandler deleteCarHandler) : ControllerBase
 {
     [HttpPost("CreateCar", Name = "CreateCar")]
-    public async Task<IActionResult> CreateCar(CreateCarCommand command)
+    public async Task<IActionResult> CreateCar([FromQuery] CreateCarCommand command)
     {
         var result = await createCarHandler.Handle(command);
         return result.ToProblemDetails(this);
@@ -25,7 +25,7 @@ public class CarManagementController(CreateCarHandler createCarHandler, GetCarsH
     }
 
     [HttpDelete("DeleteCar", Name = "DeleteCar")]
-    public async Task<IActionResult> DeleteCar(DeleteCarCommand command)
+    public async Task<IActionResult> DeleteCar([FromQuery] DeleteCarCommand command)
     {
         var result = await deleteCarHandler.Handle(command);
         return result.ToProblemDetails(this);
