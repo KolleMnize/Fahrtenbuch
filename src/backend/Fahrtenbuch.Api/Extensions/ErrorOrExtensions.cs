@@ -7,6 +7,9 @@ public static class ErrorOrExtensions
 {
     public static IActionResult ToProblemDetails<T>(this ErrorOr<T> result, ControllerBase controller)
     {
+        if (!result.IsError && (result.Value is Success or Deleted))
+            return controller.NoContent();
+
         if (!result.IsError)
             return controller.Ok(result.Value);
 
