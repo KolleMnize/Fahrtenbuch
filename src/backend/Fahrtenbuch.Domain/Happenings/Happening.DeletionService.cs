@@ -5,9 +5,9 @@ namespace Fahrtenbuch.Domain.Happenings;
 
 internal class HappeningDeletionService : DeletionDomainServiceBase<HappeningId>, IHappeningDeletionService
 {
-    protected internal override Task<ErrorOr<IReadOnlyList<BlockingReason>>> GetBlockingReasons(HappeningId aggregateId, CancellationToken ct = default)
+    protected internal override Task<ErrorOr<IReadOnlyList<DeletionBlockingReference>>> GetBlockingReasons(HappeningId aggregateId, CancellationToken ct = default)
     {
         /// Für Happenings gibt es derzeit keine Blocking Reasons, daher wird eine leere Liste zurückgegeben.
-        return Task.FromResult<ErrorOr<IReadOnlyList<BlockingReason>>>(new List<BlockingReason>());
+        return Task.FromResult<ErrorOr<IReadOnlyList<DeletionBlockingReference>>>(new List<DeletionBlockingReference>());
     }
 }
