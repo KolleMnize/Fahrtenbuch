@@ -4,7 +4,10 @@ using Fahrtenbuch.Domain.Rides;
 
 namespace Fahrtenbuch.Application.Features.Rides.DeleteRide;
 
-public class DeleteRideHandler(IRideRepository rideRepository, IRideDeletionService rideDeletionDomainService) : ICommandHandler<DeleteRideCommand, Deleted>
+public class DeleteRideHandler(
+    IRideRepository rideRepository,
+    IRideDeletionService rideDeletionDomainService
+    ) : ICommandHandler<DeleteRideCommand, Deleted>
 {
     public async Task<ErrorOr<Deleted>> Handle(DeleteRideCommand command, CancellationToken ct = default)
     {
