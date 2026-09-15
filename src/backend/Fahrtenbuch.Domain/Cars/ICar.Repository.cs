@@ -42,4 +42,16 @@ public interface ICarRepository : IBaseRepository<Car, CarId>
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
     Task<ErrorOr<IReadOnlyList<Car>>> GetAll(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retrieves a car by its ID from the repository.
+    /// </summary>
+    /// <param name="carId">The ID of the car to retrieve.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>
+    /// The car entity wrapped in an ErrorOr result.
+    /// Possible error types: <see cref="ErrorType.Unexpected"/>.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
+    Task<ErrorOr<Car>> GetById(CarId carId, CancellationToken cancellationToken);
 }

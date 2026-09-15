@@ -67,5 +67,24 @@ internal class CarRepository(FahrtenbuchDbContext dbContext, ILogger<CarReposito
         }
     }
 
-
+    public async Task<ErrorOr<Car>> GetById(CarId carId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var dbresult = await DbContext.Cars.FirstOrDefaultAsync(c => c.Id.Value == carId.Value, cancellationToken);
+            if (dbresult == null)
+                return Error.NotFound("Car.NotFound", $"The car with the specified ID {carId.Value} was not found.");
+            return dbresult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("The operation was canceled while retrieving a car by ID.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving a car by ID.");
+            return Error.Unexpected("Car.UnexpectedError", "An error occurred while retrieving a car by ID.");
+        }
+    }
 }
