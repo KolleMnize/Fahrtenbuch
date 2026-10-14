@@ -1,5 +1,8 @@
 namespace Fahrtenbuch.Domain.SharedKernel;
 
+/// <summary>
+/// Represents the unique identifier for an aggregate root in the domain.
+/// </summary>
 public abstract class AggregateId : IEquatable<AggregateId>
 {
     public Guid Value { get; }
@@ -15,4 +18,5 @@ public abstract class AggregateId : IEquatable<AggregateId>
     public override bool Equals(object? obj) => Equals(obj as AggregateId);
     public override int GetHashCode() => HashCode.Combine(GetType(), Value);
     public override string ToString() => Value.ToString();
+
 }
