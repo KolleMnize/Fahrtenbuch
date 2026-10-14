@@ -1,8 +1,8 @@
 using ErrorOr;
 using Fahrtenbuch.Application.Interfaces;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
-using Fahrtenbuch.Domain.Services;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Mileages;
+using Fahrtenbuch.Domain.Rides;
+
 namespace Fahrtenbuch.Application.Features.Rides.EndRide;
 
 public class EndRideHandler(IMileageRepository mileageRepository, IRideRepository rideRepository, RideDomainService rideService) : ICommandHandler<EndRideCommand, RideDto>

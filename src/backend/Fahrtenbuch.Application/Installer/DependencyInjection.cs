@@ -9,6 +9,10 @@ using Fahrtenbuch.Application.Features.Happenings.GetHappenings;
 using Fahrtenbuch.Application.Features.Rides.CreateRide;
 using Fahrtenbuch.Application.Features.Rides.GetRides;
 using Fahrtenbuch.Application.Features.Rides.EndRide;
+using Fahrtenbuch.Application.Features.Rides.DeleteRide;
+using Fahrtenbuch.Application.Features.Happenings.DeleteHappening;
+using Fahrtenbuch.Application.Features.Cars.DeleteCar;
+using Fahrtenbuch.Application.Features.Mileages.DeleteMilegae;
 
 namespace Fahrtenbuch.Application.Installer;
 
@@ -21,16 +25,20 @@ public static class DependencyInjection
 
         services.AddScoped<CreateCarHandler>();
         services.AddScoped<GetCarsHandler>();
+        services.AddScoped<DeleteCarHandler>();
 
         services.AddScoped<CreateMileageHandler>();
         services.AddScoped<GetMileagesHandler>();
+        services.AddScoped<DeleteMileageHandler>();
 
         services.AddScoped<CreateHappeningHandler>();
         services.AddScoped<GetHappeningsHandler>();
+        services.AddScoped<DeleteHappeningHandler>();
 
         services.AddScoped<CreateRideHandler>();
         services.AddScoped<GetRidesHandler>();
         services.AddScoped<EndRideHandler>();
+        services.AddScoped<DeleteRideHandler>();
     }
 
 }

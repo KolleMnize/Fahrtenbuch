@@ -1,4 +1,4 @@
-using Fahrtenbuch.Domain.Aggregates;
+using Fahrtenbuch.Domain.Cars;
 
 namespace Fahrtenbuch.Application.Features.Cars;
 

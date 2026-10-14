@@ -1,6 +1,6 @@
 using ErrorOr;
 using Fahrtenbuch.Application.Interfaces;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
+using Fahrtenbuch.Domain.Mileages;
 
 namespace Fahrtenbuch.Application.Features.Mileages.GetMileages;
 

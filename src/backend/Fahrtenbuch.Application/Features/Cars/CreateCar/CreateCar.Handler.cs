@@ -1,8 +1,6 @@
 using ErrorOr;
 using Fahrtenbuch.Application.Interfaces;
-using Fahrtenbuch.Domain.Aggregates;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
-using Fahrtenbuch.Domain.ValueObjects;
+using Fahrtenbuch.Domain.Cars;
 
 namespace Fahrtenbuch.Application.Features.Cars.CreateCar;
 

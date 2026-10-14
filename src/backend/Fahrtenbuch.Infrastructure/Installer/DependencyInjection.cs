@@ -1,9 +1,15 @@
 using Fahrtenbuch.Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Fahrtenbuch.Infrastructure.Persistence.Repositories;
-using Fahrtenbuch.Domain.Interfaces.Repositories;
 using Fahrtenbuch.Infrastructure.Services;
+using Fahrtenbuch.Domain.Cars;
+using Fahrtenbuch.Domain.Mileages;
+using Fahrtenbuch.Domain.Happenings;
+using Fahrtenbuch.Domain.Rides;
+using Fahrtenbuch.Infrastructure.Persistence.Cars;
+using Fahrtenbuch.Infrastructure.Persistence.Mileages;
+using Fahrtenbuch.Infrastructure.Persistence.Happenings;
+using Fahrtenbuch.Infrastructure.Persistence.Rides;
 
 namespace Fahrtenbuch.Infrastructure.Installer;
 

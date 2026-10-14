@@ -1,0 +1,155 @@
+using Microsoft.EntityFrameworkCore;
+using ErrorOr;
+using Microsoft.Extensions.Logging;
+using Fahrtenbuch.Infrastructure.Persistence.Base;
+using Fahrtenbuch.Domain.Rides;
+using Fahrtenbuch.Domain.Mileages;
+
+namespace Fahrtenbuch.Infrastructure.Persistence.Rides;
+
+internal class RideRepository(FahrtenbuchDbContext dbContext, ILogger<RideRepository> logger)
+: BaseRepository<Ride, RideId>(logger, dbContext), IRideRepository
+{
+    public async Task<ErrorOr<Success>> Create(Ride ride, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            DbContext.Rides.Add(ride);
+            await DbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while creating a ride.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while creating a ride.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while creating a ride.");
+        }
+    }
+
+    public async Task<ErrorOr<bool>> Exists(RideId rideId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbResult = await DbContext.Rides.AnyAsync(r => r.Id.Value == rideId.Value, cancellationToken);
+            return dbResult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while checking if a ride exists.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while checking if a ride exists.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while checking if a ride exists.");
+        }
+    }
+
+    public async Task<ErrorOr<IReadOnlyList<Ride>>> GetAll(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbResult = await DbContext.Rides.ToListAsync(cancellationToken);
+            return dbResult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while retrieving all rides.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving all rides.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while retrieving all rides.");
+        }
+    }
+
+    public async Task<ErrorOr<Ride?>> GetById(RideId rideId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbResult = await DbContext.Rides.FirstOrDefaultAsync(r => r.Id.Value == rideId.Value, cancellationToken);
+            return dbResult;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while retrieving a ride by ID.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving a ride by ID.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while retrieving a ride by ID.");
+        }
+    }
+
+    public async Task<ErrorOr<Success>> Update(Ride ride, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var entry = DbContext.Entry(ride);
+            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                DbContext.Rides.Attach(ride);
+                entry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+
+            await DbContext.SaveChangesAsync(cancellationToken);
+            return Result.Success;
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogDebug("Operation was canceled while updating a ride.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while updating a ride.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while updating a ride.");
+        }
+    }
+
+    public async Task<ErrorOr<bool>> ExistsForMileage(MileageId mileageId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            bool startMileageExists = await DbContext.Rides.AnyAsync(r => r.StartMileageId == mileageId, cancellationToken);
+            bool endMileageExists = await DbContext.Rides.AnyAsync(r => r.EndMileageId == mileageId, cancellationToken);
+            return startMileageExists || endMileageExists;
+        }
+        catch (OperationCanceledException ex)
+        {
+            logger.LogError(ex, "Operation was canceled while checking if any rides exist for the specified mileage.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while checking if any rides exist for the specified mileage.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while checking if any rides exist for the specified mileage.");
+        }
+    }
+
+    public async Task<ErrorOr<IReadOnlyList<Ride>>> GetAllByMileage(MileageId mileageId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await DbContext.Rides
+                .Where(r => r.StartMileageId == mileageId || r.EndMileageId == mileageId)
+                .ToListAsync(cancellationToken);
+        }
+        catch (OperationCanceledException ex)
+        {
+            logger.LogError(ex, "Operation was canceled while retrieving all rides for the specified mileage.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while retrieving all rides for the specified mileage.");
+            return Error.Unexpected("Ride.UnexpectedError", "An unexpected error occurred while retrieving all rides for the specified mileage.");
+        }
+    }
+}
